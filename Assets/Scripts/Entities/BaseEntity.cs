@@ -34,14 +34,17 @@ namespace WSGJ
 			var newScale = transform.localScale;
 			newScale.x = Math.Sign(dir.x) > 0 ? -1f : 1f;
 			transform.localScale = newScale;
-			
-			transform.position += movementSpeed * Time.deltaTime * Math.Sign(dir.x) * transform.right;
 
-			if(!(distance < 25f))
-			{			
-				ArmatureComponent.animation.Play("attack");
+			bool isInAttackRange = distance < 25f;
+
+			if(!isInAttackRange)
+			{
+				transform.position += movementSpeed * Time.deltaTime * Math.Sign(dir.x) * transform.right;
 			}
-
+			else
+			{
+				ArmatureComponent.animation.Play("atack");
+			}
 		}
 
 		protected virtual void SetTarget(Transform target)
