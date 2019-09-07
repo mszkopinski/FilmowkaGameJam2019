@@ -15,7 +15,7 @@ public class EnemyController : MonoSingleton<EnemyController>
 
     void ChangeDirection()
     {
-        var enemies = FindObjectsOfType<EnemyEntity>();
+        var enemies = FindObjectsOfType<SpaceInvanderEntity>();
 
         foreach (var enemy in enemies)
         {
@@ -36,7 +36,6 @@ public class EnemyController : MonoSingleton<EnemyController>
 
 
     void Update()
-    {
-        
+    { 
     }
 }

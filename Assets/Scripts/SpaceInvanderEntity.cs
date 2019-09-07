@@ -4,7 +4,7 @@ using UnityEngine;
 using WSGJ.CommonEnum;
 
 
-public class EnemyEntity : MonoBehaviour
+public class SpaceInvanderEntity : MonoBehaviour
 {
     public Directions direction;
     public bool IsAttacking = false;
