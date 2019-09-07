@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 6935510364584586133}
   m_Layer: 0
   m_Name: FallingBlock_Sprite
-  m_TagString: Untagged
+  m_TagString: FallingBlock
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -120,7 +120,7 @@ GameObject:
   - component: {fileID: 4545684447905013108}
   m_Layer: 0
   m_Name: Block_Prefab_00
-  m_TagString: Untagged
+  m_TagString: FallingBlock
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -154,7 +154,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   defaultVelocity: 5
   boostedVelocity: 50
-  verticalStepSize: 1.5
   horizontalStepSize: 1.5
 --- !u!50 &6935510365582051339
 Rigidbody2D:
@@ -164,7 +163,7 @@ Rigidbody2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 9078906356873047121}
-  m_BodyType: 1
+  m_BodyType: 0
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0

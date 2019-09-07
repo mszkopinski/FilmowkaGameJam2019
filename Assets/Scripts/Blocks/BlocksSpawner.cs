@@ -110,7 +110,6 @@ namespace WSGJ
 			screenTopPosition.x = Screen.width / 2f; // add random horizontal offset
 			screenTopPosition.z = mainCamera.nearClipPlane;
 			var targetPos = mainCamera.ScreenToWorldPoint(screenTopPosition);
-			Debug.Log(targetPos.ToString());
 			return targetPos;
 		}
 		

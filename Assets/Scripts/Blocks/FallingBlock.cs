@@ -13,6 +13,8 @@ namespace WSGJ
 		public event Action Placed, Destroyed;
 		
 		public bool IsSelected { get; set; }
+		public bool IsAttachedToTruck { get; private set; }
+
 		
 		public Vector2 SpriteBounds
 		{
@@ -37,7 +39,6 @@ namespace WSGJ
 		SpriteRenderer spriteRenderer;
 		Rigidbody2D rb;
 		float currentVelocity;
-		bool isAttachedToTruck = false;
 		const float transitionTime = .25f;
 		
 		void Awake()
@@ -54,7 +55,7 @@ namespace WSGJ
 
 		void Update()
 		{
-			if(isAttachedToTruck || !IsSelected)
+			if(IsAttachedToTruck || !IsSelected)
 				return;
 
 			HandleMovement();
@@ -72,51 +73,49 @@ namespace WSGJ
 
 			if(canMoveBlock && (isRightPressed || isLeftPressed))
 			{
-				var targetPos = transform.position;
-				targetPos.x += isRightPressed ? horizontalStepSize : -horizontalStepSize;
-				rb.DOMove(targetPos, transitionTime)
+				var targetPosX = transform.localPosition.x 
+				                 + (isRightPressed ? horizontalStepSize : -horizontalStepSize);
+				
+				rb.DOMoveX(targetPosX, transitionTime)
 					.SetEase(Ease.InOutCubic)
 					.OnStart(() => { canMoveBlock = false; })
-					.OnComplete(() =>
-					{
-						canMoveBlock = true;
-					});
+					.OnComplete(() => { canMoveBlock = true; });
 			}
 		}
 		
 		void HandleRotation()
 		{
-			if(Input.GetKeyDown(KeyCode.R))
+			if(Input.GetKeyDown(KeyCode.R) && canRotateBlock)
 			{
-				RotateBlock();
+				var targetRotation = transform.localRotation.eulerAngles;
+				targetRotation.z -= 90f;
+				transform.DOLocalRotate(targetRotation, RotateTransitionTime)
+					.OnStart(() => { canRotateBlock = false; })
+					.OnComplete(() => { canRotateBlock = true; });
 			}
-		}
-
-		void RotateBlock()
-		{
-			if(!canRotateBlock)
-				return;
-			
-			var targetRotation = transform.localRotation.eulerAngles;
-			targetRotation.z -= 90f;
-			transform.DOLocalRotate(targetRotation, RotateTransitionTime).OnStart(() =>
-			{
-				canRotateBlock = false;
-			}).OnComplete(() => { canRotateBlock = true; });
 		}
 		
 		void OnCollisionEnter2D(Collision2D collision2D)
 		{
-			if(!collision2D.HasCollidedWithGround())
-				return;
+			if(collision2D.HasCollidedWithGround())
+			{
+				Debug.Log("BLOCK SHOULD'VE DESTROYED");
+				OnBlockDestroyed();	
+			}
 
-			Debug.Log("BLOCK SHOULD'VE DESTROYED");
-			OnBlockDestroyed();
+			if(collision2D.HasCollidedWithBlock())
+			{
+				var otherBlock = collision2D.collider.GetComponent<FallingBlock>();
+				if(otherBlock != null && otherBlock.IsAttachedToTruck)
+				{
+					Debug.Log("COLLIDED WITH ANOTHER BLOCK");				
+				}
+			}
 		}
 
 		void OnTriggerEnter2D(Collider2D col)
 		{
-			if(col.HasCollidedWithTruck() && !isAttachedToTruck)
+			if(col.HasCollidedWithTruck() && !IsAttachedToTruck)
 			{
 				TruckController truckController = null;
 				if((truckController = col.GetComponentInParent<TruckController>()) != null)
@@ -150,7 +149,7 @@ namespace WSGJ
 
 		protected virtual void OnBlockPlaced(TruckController truckController)
 		{
-			isAttachedToTruck = true;
+			IsAttachedToTruck = true;
 			
 			StopAllCoroutines();
 

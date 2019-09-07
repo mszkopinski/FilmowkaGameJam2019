@@ -16,6 +16,16 @@ namespace WSGJ.Utils
 			return collision.collider.HasCollidedWithTruck();
 		}
 		
+		public static bool HasCollidedWithBlock(this Collision2D collision)
+		{
+			return collision.collider.HasCollidedWithBlock();
+		}
+
+		public static bool HasCollidedWithBlock(this Collider2D collider)
+		{
+			return collider.CompareTag("FallingBlock");
+		}
+		
 		public static bool HasCollidedWithTruck(this Collider2D collider)
 		{
 			return collider.CompareTag("Truck");

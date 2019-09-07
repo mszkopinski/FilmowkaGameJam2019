@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Ground
   - Truck
+  - FallingBlock
   layers:
   - Default
   - TransparentFX
