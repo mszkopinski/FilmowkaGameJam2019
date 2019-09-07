@@ -128,9 +128,13 @@ namespace WSGJ
 			{
 				SoundManager.Instance.PlayBlockHitsGround();
 				OnBlockDestroyed();	
-
 			}
 
+			var contactPoint = col.GetContact(0);
+			Debug.Log($"contact point: {contactPoint.point.ToString()} bounds: {col.collider.bounds.max}");
+			// bool isAboveBlock = contactPoint.point.y ;
+
+			
 			if(col.HasCollidedWithBlock())
 			{
 				thisAudioSource.clip = SoundManager.Instance.BlockHitsOtherBlock;
