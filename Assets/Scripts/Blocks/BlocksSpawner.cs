@@ -122,10 +122,10 @@ namespace WSGJ
 
 		void OnAnyBlockPlaced(FallingBlock fallingBlock)
 		{
-			if(currentFallingBlock == null)
-				return;
-
-			currentFallingBlock = null;
+			if(currentFallingBlock == fallingBlock)
+			{
+				currentFallingBlock = null;
+			}
 		}
 	}
 }
