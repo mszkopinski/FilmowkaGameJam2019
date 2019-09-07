@@ -84,18 +84,20 @@ namespace WSGJ
 					var targetPos = GetRandomTopPosition();
 					targetPos.y += spawnedBlock.SpriteBounds.y / 2f;
 					spawnedBlock.transform.position = targetPos;
-					
+				
+					shouldSpawnNextBlock = false;	
+
 					spawnedBlock.Placed += () =>
 					{
-						shouldSpawnNextBlock = true;
 						OnAnyBlockPlaced(spawnedBlock);
 					};
 
-					spawnedBlock.Destroyed += () => { shouldSpawnNextBlock = true; };
-					
-					shouldSpawnNextBlock = false;	
+					spawnedBlock.Destroyed += () =>
+					{
+						OnAnyBlockPlaced(spawnedBlock);
+					};
 				}
-
+				
 				yield return waitForSeconds;
 			}
 		}
@@ -118,14 +120,18 @@ namespace WSGJ
 				return;
 			
 			currentFallingBlock = fallingBlock;
+			currentFallingBlock.IsSelected = true;
 		}
 
 		void OnAnyBlockPlaced(FallingBlock fallingBlock)
 		{
-			if(currentFallingBlock == fallingBlock)
-			{
-				currentFallingBlock = null;
-			}
+			if(currentFallingBlock != fallingBlock)
+				return;
+			
+			currentFallingBlock.IsSelected = false;
+			currentFallingBlock = null;
+			
+			shouldSpawnNextBlock = true;
 		}
 	}
 }

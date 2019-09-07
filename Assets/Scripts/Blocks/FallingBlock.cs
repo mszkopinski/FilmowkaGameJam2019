@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using DG.Tweening;
 using UnityEngine;
 using WSGJ.Utils;
@@ -12,6 +11,8 @@ namespace WSGJ
 
 		public static event Action<FallingBlock> Spawned;
 		public event Action Placed, Destroyed;
+		
+		public bool IsSelected { get; set; }
 		
 		public Vector2 SpriteBounds
 		{
@@ -29,8 +30,6 @@ namespace WSGJ
 		[SerializeField]
 		float boostedVelocity = 5f;
 		[SerializeField]
-		float verticalStepSize = 1.5f;
-		[SerializeField]
 		float horizontalStepSize = 1.5f;
 
 		bool canRotateBlock = true;
@@ -38,6 +37,8 @@ namespace WSGJ
 		SpriteRenderer spriteRenderer;
 		Rigidbody2D rb;
 		float currentVelocity;
+		bool isAttachedToTruck = false;
+		const float transitionTime = .25f;
 		
 		void Awake()
 		{
@@ -53,13 +54,11 @@ namespace WSGJ
 
 		void Update()
 		{
+			if(isAttachedToTruck || !IsSelected)
+				return;
+
 			HandleMovement();
 			HandleRotation();
-		}
-
-		public void SetSpeedUpActive(bool isActive)
-		{
-			currentVelocity = isActive ? boostedVelocity : defaultVelocity;
 		}
 
 		void HandleMovement()
@@ -67,36 +66,21 @@ namespace WSGJ
 			var targetPosition = transform.position;
 			targetPosition.y -= currentVelocity * Time.deltaTime;
 			rb.MovePosition(targetPosition);
-			
-			if(canMoveBlock)
+
+			bool isRightPressed = Input.GetKeyDown(KeyCode.RightArrow);
+			bool isLeftPressed = Input.GetKeyDown(KeyCode.LeftArrow);
+
+			if(canMoveBlock && (isRightPressed || isLeftPressed))
 			{
-				const float transitionTime = .25f;
-				
-				if(Input.GetKeyDown(KeyCode.RightArrow))
-				{
-					var targetPos = transform.position;
-					targetPos.x += horizontalStepSize;
-					rb.DOMove(targetPos, transitionTime)
-						.SetEase(Ease.InOutCubic)
-						.OnStart(() => { canMoveBlock = false; })
-						.OnComplete(() =>
-						{
-							canMoveBlock = true;
-						});	
-				}
-			
-				if(Input.GetKeyDown(KeyCode.LeftArrow))
-				{
-					var targetPos = transform.position;
-					targetPos.x -= horizontalStepSize;
-					rb.DOMove(targetPos, transitionTime)
-						.SetEase(Ease.InOutCubic)
-						.OnStart(() => { canMoveBlock = false; })
-						.OnComplete(() =>
-						{
-							canMoveBlock = true;
-						});	
-				}
+				var targetPos = transform.position;
+				targetPos.x += isRightPressed ? horizontalStepSize : -horizontalStepSize;
+				rb.DOMove(targetPos, transitionTime)
+					.SetEase(Ease.InOutCubic)
+					.OnStart(() => { canMoveBlock = false; })
+					.OnComplete(() =>
+					{
+						canMoveBlock = true;
+					});
 			}
 		}
 		
@@ -123,26 +107,26 @@ namespace WSGJ
 		
 		void OnCollisionEnter2D(Collision2D collision2D)
 		{
-			var col = collision2D.collider;
-			
-			if(collision2D.HasCollidedWithGround())
+			if(!collision2D.HasCollidedWithGround())
+				return;
+
+			Debug.Log("BLOCK SHOULD'VE DESTROYED");
+			OnBlockDestroyed();
+		}
+
+		void OnTriggerEnter2D(Collider2D col)
+		{
+			if(col.HasCollidedWithTruck() && !isAttachedToTruck)
 			{
-				OnBlockDestroyed();
-			}
-			else if(collision2D.HasCollidedWithTruck())
-			{
-				OnBlockPlaced();
-				
 				TruckController truckController = null;
 				if((truckController = col.GetComponentInParent<TruckController>()) != null)
 				{
-					Debug.Log("jazda");
-					StopAllCoroutines();
-					truckController.OnFallingBlockAttached(this);
-				}
+					OnBlockPlaced(truckController);
+					truckController.OnBlockDropped(this);
+				}			
 			}
 		}
-		
+
 		void OnBlockDestroyed()
 		{
 			transform.DOScale(Vector3.zero, .15f)
@@ -153,16 +137,28 @@ namespace WSGJ
 					Destroy(gameObject);
 				});
 		}
+		
+		public void SetSpeedUpActive(bool isActive)
+		{
+			currentVelocity = isActive ? boostedVelocity : defaultVelocity;
+		}
 
 		protected virtual void OnSpawned(FallingBlock @this)
 		{
 			Spawned?.Invoke(@this);
 		}
 
-		protected virtual void OnBlockPlaced()
+		protected virtual void OnBlockPlaced(TruckController truckController)
 		{
+			isAttachedToTruck = true;
+			
+			StopAllCoroutines();
+
+			rb.velocity = Vector2.zero;
+			
+			transform.SetParent(truckController.transform);
+
 			Placed?.Invoke();
-			canMoveBlock = false;
 		}
 	}
 }

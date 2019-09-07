@@ -1,6 +1,5 @@
 using UnityEngine;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
 using WSGJ.Utils;
 
@@ -13,24 +12,33 @@ namespace WSGJ
 
 		[SerializeField]
 		float movementVelocity = 2f;
+		[SerializeField]
+		List<Transform> wheelTransforms;
 
 		Rigidbody2D rigidBody;
 		Transform currentTargetNode;
-		bool wasLastNodeLeft = false; 
+		Animator animator;
+		
+		readonly int wheatDroppedAnimHash = Animator.StringToHash("isWheatDropped");
 
 		void Awake()
 		{
 			rigidBody = GetComponent<Rigidbody2D>();
+			animator = GetComponent<Animator>();
 		}
 
 		void Start()
 		{
 			currentTargetNode = pathNodes.GetRandomElement();
-			wasLastNodeLeft = pathNodes.IndexOf(currentTargetNode) == 0;
 		}
 
 		void Update()
 		{
+			if(Input.GetKeyDown(KeyCode.K))
+			{
+				OnBlockDropped(null);
+			}
+			
 			if((UnityEngine.Object)currentTargetNode == null)
 				return;
 
@@ -41,21 +49,25 @@ namespace WSGJ
 			var distance = (currPos - targetPos).sqrMagnitude;
 
 			// Debug.Log(distance.ToString(CultureInfo.InvariantCulture));
-			if(distance < 2f)
+			if(distance < 3f)
 			{
-				currentTargetNode = wasLastNodeLeft
-					? pathNodes.LastOrDefault() 
-					: pathNodes.FirstOrDefault();
-				wasLastNodeLeft = !wasLastNodeLeft;
+				currentTargetNode = pathNodes.FirstOrDefault(n => n != currentTargetNode);
 				return;
 			}
 			
 			rigidBody.MovePosition(currPos + movementVelocity * Time.deltaTime * targetDir);
+
+			foreach(var wheelTransform in wheelTransforms)
+			{
+				var targetRotation = wheelTransform.localRotation.eulerAngles;
+				targetRotation.z += 300f * Time.deltaTime;
+				wheelTransform.localEulerAngles = targetRotation;
+			}
 		}
 		
-		public void OnFallingBlockAttached(FallingBlock fallingBlock)
+		public void OnBlockDropped(FallingBlock fallingBlock)
 		{
-			
+			animator.SetTrigger(wheatDroppedAnimHash);
 		}
 	}
 }
