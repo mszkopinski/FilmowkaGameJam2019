@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,6 +8,8 @@ namespace WSGJ
 {
 	public class BlocksSpawner : MonoSingleton<BlocksSpawner>
 	{
+		public static event Action<FallingBlock> BlockToSpawnChanged; 
+		
 	    [System.Serializable]
 	    class BlockSpawnerData
 	    {
@@ -21,7 +24,23 @@ namespace WSGJ
 		IEnumerator blocksSpawningCoroutine;
 		WaitForSeconds waitForSeconds;
 		FallingBlock currentFallingBlock;
-		
+
+		public FallingBlock NextBlockToSpawn
+		{
+			get
+			{
+				return nextBlockToSpawn;
+			}
+			private set
+			{
+				if(value == nextBlockToSpawn) return;
+				nextBlockToSpawn = value;
+				OnBlockToSpawnChanged(nextBlockToSpawn);
+			}
+		}
+
+		FallingBlock nextBlockToSpawn;
+
 		protected override void Awake()
 		{
 			base.Awake();
@@ -54,6 +73,9 @@ namespace WSGJ
 			if(blocksSpawningCoroutine != null)
 				return;
 
+			NextBlockToSpawn = spawnerData.BlockPrefabs.GetRandomElement()
+				.GetComponent<FallingBlock>();
+			
 			blocksSpawningCoroutine = BlocksSpawningCoroutine();
 			StartCoroutine(blocksSpawningCoroutine);
 		}
@@ -76,16 +98,18 @@ namespace WSGJ
 				if(shouldSpawnNextBlock)
 				{
 					var spawnedBlock = Instantiate(
-							spawnerData.BlockPrefabs.GetRandomElement(), 
+							NextBlockToSpawn,  
 							Vector3.zero, 
 							Quaternion.identity, null)
 						.GetComponent<FallingBlock>();
-
+					
 					var targetPos = GetRandomTopPosition();
 					targetPos.y += spawnedBlock.SpriteBounds.y / 2f;
 					spawnedBlock.transform.position = targetPos;
 				
-					shouldSpawnNextBlock = false;	
+					shouldSpawnNextBlock = false;
+					NextBlockToSpawn = spawnerData.BlockPrefabs.GetRandomElement()
+						.GetComponent<FallingBlock>();
 
 					spawnedBlock.Placed += () =>
 					{
@@ -131,6 +155,11 @@ namespace WSGJ
 			currentFallingBlock = null;
 			
 			shouldSpawnNextBlock = true;
+		}
+
+		protected virtual void OnBlockToSpawnChanged(FallingBlock nextBlock)
+		{
+			BlockToSpawnChanged?.Invoke(nextBlock);
 		}
 	}
 }

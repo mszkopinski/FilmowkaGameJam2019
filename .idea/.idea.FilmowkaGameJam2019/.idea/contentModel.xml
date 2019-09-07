@@ -66,6 +66,9 @@
           <e p="Camera" t="Include">
             <e p="CameraController.cs" t="Include" />
           </e>
+          <e p="GUI" t="Include">
+            <e p="GameGUI.cs" t="Include" />
+          </e>
           <e p="SpaceInvanderEntity.cs" t="Include" />
           <e p="Truck" t="Include">
             <e p="TruckController.cs" t="Include" />

@@ -30,6 +30,17 @@ namespace WSGJ
 				return spriteRenderer.bounds.size;
 			}
 		}
+
+		public Sprite BlockSprite
+		{
+			get
+			{
+				if(spriteRenderer == null)
+					spriteRenderer = GetComponentInChildren<SpriteRenderer>(true);
+
+				return spriteRenderer.sprite;
+			}
+		}
 		
 		[SerializeField, Header("Block Settings")]
 		float defaultVelocity = 2f;
@@ -48,7 +59,7 @@ namespace WSGJ
 		void Awake()
 		{
 			OnSpawned(this);
-			spriteRenderer = GetComponentInChildren<SpriteRenderer>();
+			spriteRenderer = GetComponentInChildren<SpriteRenderer>(true);
 			rb = GetComponent<Rigidbody2D>();
 		}
 
@@ -164,6 +175,7 @@ namespace WSGJ
 			rb.velocity = Vector2.zero;
 
 			Placed?.Invoke();
+			CameraController.Instance.ShakeCamera();
 		}
 	}
 }
