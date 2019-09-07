@@ -1,33 +1,67 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using DragonBones;
 using UnityEngine;
-using WSGJ;
 
-
-public class PiggyEntity : MonoBehaviour
+namespace WSGJ
 {
-    Rigidbody2D rb2d;
-    bool isLeftDirection;
-    float speed = 165f;
-
-    void Start()
+    public class PiggyEntity : MonoBehaviour
     {
-        rb2d = GetComponent<Rigidbody2D>();
-        transform.position += new Vector3(0f, Random.Range(0.5f, 2f), 0f);
-        isLeftDirection = transform.position.x > 0;
+        [SerializeField]
+        float velocity = 165f;
+        [SerializeField]
+        float minSpawnHeight = 0.5f;
+        [SerializeField]
+        float maxSpawnHeight = 2f;
+
+        UnityArmatureComponent armatureComponent;
+        Rigidbody2D rb2d;
+        bool isLeftDirection;
+        bool canMove = true;
+
+        void Awake()
+        {
+            armatureComponent = GetComponent<UnityArmatureComponent>();
+            rb2d = GetComponent<Rigidbody2D>();
+        }
+        
+        void Start()
+        {
+            transform.position += new Vector3(0f, 
+                Random.Range(minSpawnHeight, maxSpawnHeight), 0f);
+            isLeftDirection = transform.position.x > 0;
+        }
+
+        void FixedUpdate()
+        {
+            if(canMove == false)
+                return;
+            
+            rb2d.velocity = Time.deltaTime * velocity * (isLeftDirection ? -1f : 1f) * Vector2.right;
+            transform.localScale = new Vector3(isLeftDirection ? 1f : -1f, 1f, 1f);       
+        }
+
+        void Update()
+        {
+            var pointInViewport = CameraController.Instance.MainCamera.WorldToViewportPoint(transform.position);
+            if (pointInViewport.x > 1.5f || pointInViewport.x <-0.5f) Destroy(gameObject);
+        }
+        
+        void OnTriggerEnter2D(Collider2D other)
+        {
+            if(other.CompareTag("Weapon") == false) return;
+            OnEntityDied();
+        }
+
+        void OnEntityDied()
+        {
+            canMove = false;
+            
+            armatureComponent.animation.Play("die", 1);
+            Invoke(nameof(DestroyEntity), .5f);
+        }
+        
+        void DestroyEntity()
+        {
+            Destroy(gameObject);			
+        }
     }
-
-    private void FixedUpdate()
-    {
-        rb2d.velocity = Vector2.right * Time.deltaTime * speed * (isLeftDirection ? -1f : 1f);
-        transform.localScale = new Vector3(isLeftDirection ? 1f : -1f, 1f, 1f);       
-    }
-
-    void Update()
-    {
-        var pointInViewport = Camera.main.WorldToViewportPoint(transform.position);
-        if (pointInViewport.x > 1.5f || pointInViewport.x <-0.5f) Destroy(gameObject);
-    }
-
-
 }

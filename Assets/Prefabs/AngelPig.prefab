@@ -401,7 +401,7 @@ GameObject:
   - component: {fileID: 6155777341998692142}
   m_Layer: 8
   m_Name: AngelPig
-  m_TagString: Untagged
+  m_TagString: Entity
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
