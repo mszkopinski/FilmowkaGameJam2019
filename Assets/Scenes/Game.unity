@@ -447,10 +447,10 @@ MonoBehaviour:
     DelayBetweenSpawns: 1.5
     BlockPrefabs:
     - {fileID: 9078906356873047121, guid: 67c89a906301d1c4a9e253ea1696178d, type: 3}
-    - {fileID: 1881588001924056335, guid: 4385f17611d36f64daf5959dfa491b0a, type: 3}
-    - {fileID: 5166948491624233456, guid: f8a5cb17ab467844eb6343caa726b3af, type: 3}
-    - {fileID: 3824500983532874197, guid: e87c73a729145684291fbda4184fa7ce, type: 3}
-    - {fileID: 899631310228254049, guid: afe199c0d39385d49854811a63012bde, type: 3}
+    - {fileID: 8627335626386112238, guid: 547c3a56fbe048749960eafd0ac37794, type: 3}
+    - {fileID: 6174769258977060819, guid: f8a5cb17ab467844eb6343caa726b3af, type: 3}
+    - {fileID: 8141523673707907691, guid: e87c73a729145684291fbda4184fa7ce, type: 3}
+    - {fileID: 1779920090183787993, guid: afe199c0d39385d49854811a63012bde, type: 3}
 --- !u!1 &1146706240
 GameObject:
   m_ObjectHideFlags: 0

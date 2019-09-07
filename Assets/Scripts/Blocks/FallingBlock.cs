@@ -13,9 +13,13 @@ namespace WSGJ
 		public event Action Placed, Destroyed;
 		
 		public bool IsSelected { get; set; }
-		public bool IsAttachedToTruck { get; private set; }
-
 		
+		public bool IsAttachedToTruck
+		{
+			get => AttachedTruck != null;
+		}
+		public TruckController AttachedTruck { get; private set; }
+
 		public Vector2 SpriteBounds
 		{
 			get
@@ -73,10 +77,10 @@ namespace WSGJ
 
 			if(canMoveBlock && (isRightPressed || isLeftPressed))
 			{
-				var targetPosX = transform.localPosition.x 
+				var targetPosX = transform.position.x 
 				                 + (isRightPressed ? horizontalStepSize : -horizontalStepSize);
-				
-				rb.DOMoveX(targetPosX, transitionTime)
+
+				transform.DOLocalMoveX(targetPosX, transitionTime)
 					.SetEase(Ease.InOutCubic)
 					.OnStart(() => { canMoveBlock = false; })
 					.OnComplete(() => { canMoveBlock = true; });
@@ -108,7 +112,8 @@ namespace WSGJ
 				var otherBlock = collision2D.collider.GetComponent<FallingBlock>();
 				if(otherBlock != null && otherBlock.IsAttachedToTruck)
 				{
-					Debug.Log("COLLIDED WITH ANOTHER BLOCK");				
+					var truckController = otherBlock.AttachedTruck;
+					OnBlockPlaced(truckController);
 				}
 			}
 		}
@@ -149,7 +154,7 @@ namespace WSGJ
 
 		protected virtual void OnBlockPlaced(TruckController truckController)
 		{
-			IsAttachedToTruck = true;
+			AttachedTruck = truckController;
 			
 			StopAllCoroutines();
 
