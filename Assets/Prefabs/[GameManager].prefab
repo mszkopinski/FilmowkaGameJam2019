@@ -120,6 +120,7 @@ MonoBehaviour:
     ChanceToSpawnAttachment: 0.5
     BlockAttachments:
     - {fileID: 5613150730789546583, guid: 32f14409936c6a6469ace6a17704fe21, type: 3}
+    - {fileID: 2789093321483450383, guid: 4b13e08155ec5134c850d5f8fe30d96f, type: 3}
     - {fileID: 6401718453265964562, guid: be4b267bd51c369419a8701f0f6263f7, type: 3}
 --- !u!114 &1023924494
 MonoBehaviour:
