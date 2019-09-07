@@ -5,7 +5,13 @@ namespace WSGJ
 		public override void OnEntityDied()
 		{
 			base.OnEntityDied();
-			ArmatureComponent.animation.Play("die");
+			
+			if(IsDead)
+				return;
+			
+			ArmatureComponent.animation.Play("die", 1);
+			Invoke(nameof(DestroyEntity), 10f);
+			IsDead = true;
 		}
 
 		void DestroyEntity()

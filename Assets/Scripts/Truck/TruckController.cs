@@ -10,6 +10,8 @@ namespace WSGJ
 	{
 		public static event Action<float, float> HealthChanged;
 
+		public int AttachedBlocksCounter { get; private set; }
+		
 		public float CurrentHealth
 		{
 			get
@@ -39,7 +41,6 @@ namespace WSGJ
 		Transform currentTargetNode;
 		Animator animator;
 		float currentHealth;
-		int attachedBlocksCounter = 0;
 		TruckLethalRange lethalRange;
 		
 		readonly int wheatDroppedAnimHash = Animator.StringToHash("isWheatDropped");
@@ -93,7 +94,7 @@ namespace WSGJ
 		public void OnBlockAttached(FallingBlock fallingBlock)
 		{
 			animator.SetTrigger(wheatDroppedAnimHash);
-			++attachedBlocksCounter;
+			++AttachedBlocksCounter;
 
 			lethalRange.DestroyEntitiesInRange();
 		}
