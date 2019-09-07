@@ -17,10 +17,12 @@ namespace WSGJ
         Animator animator;
         readonly int isThrowingHash = Animator.StringToHash("isThrowing");
         readonly List<CatapultRock> projectiles = new List<CatapultRock>();
+        AudioSource thisAudioSource;
 
         void Awake()
         {
             animator = GetComponent<Animator>();
+            thisAudioSource = GetComponent<AudioSource>();
         }
 
         void Start()
@@ -58,7 +60,9 @@ namespace WSGJ
                     var spawnedProjectile = Instantiate(rockPrefab, spawnSlot.transform)
                         .GetComponent<CatapultRock>();
                 
-                    projectiles.Add(spawnedProjectile);                    
+                    projectiles.Add(spawnedProjectile);  
+                //thisAudioSource.clip = SoundManager.Instance.CatapultShot;
+				//thisAudioSource.PlayOneShot(SoundManager.Instance.CatapultShot);                  
                 }
             }
             
