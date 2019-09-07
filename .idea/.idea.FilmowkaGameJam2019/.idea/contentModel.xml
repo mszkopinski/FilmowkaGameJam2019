@@ -59,8 +59,8 @@
         <e p="Scripts" t="Include">
           <e p="Blocks" t="Include">
             <e p="BlocksSpawner.cs" t="Include" />
+            <e p="CatapultAttachment.cs" t="Include" />
             <e p="CatapultRock.cs" t="Include" />
-            <e p="CatapultShooting.cs" t="Include" />
             <e p="FallingBlock.cs" t="Include" />
             <e p="IBlockAttachment.cs" t="Include" />
           </e>
@@ -78,6 +78,7 @@
             <e p="CommonEnum.cs" t="Include" />
             <e p="Extensions.cs" t="Include" />
             <e p="MonoSingleton.cs" t="Include" />
+            <e p="ParticlesAutoDestroyer.cs" t="Include" />
           </e>
         </e>
         <e p="TextMesh Pro" t="Include">
