@@ -1,7 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using Sirenix.OdinInspector.Editor.Validation;
-using Sirenix.Utilities.Editor;
 using UnityEngine;
 using WSGJ.Utils;
 
@@ -13,7 +11,7 @@ namespace WSGJ
 	    class BlockSpawnerData
 	    {
 		    public float DelayBetweenSpawns = 1.5f;
-		    public GameObject BlockPrefab = null;
+		    public GameObject[] BlockPrefabs = null;
 	    }
 	    
 	    [SerializeField, Header("Spawner Settings")]
@@ -77,7 +75,8 @@ namespace WSGJ
 			{
 				if(shouldSpawnNextBlock)
 				{
-					var spawnedBlock = Instantiate(spawnerData.BlockPrefab, 
+					var spawnedBlock = Instantiate(
+							spawnerData.BlockPrefabs.GetRandomElement(), 
 							Vector3.zero, 
 							Quaternion.identity, null)
 						.GetComponent<FallingBlock>();
