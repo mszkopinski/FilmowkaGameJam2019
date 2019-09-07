@@ -9,9 +9,11 @@ public class SoundManager : MonoSingleton<SoundManager>
 
     [SerializeField] private AudioClip Theme;
     [SerializeField] private AudioClip CatapultShot;
-    [SerializeField] private AudioClip BlockHitsTheCart;
     [SerializeField] private AudioClip BoxingHit;
+    [SerializeField] private AudioClip GreatAxe;
+    [SerializeField] private AudioClip BlockHitsTheCart;
     [SerializeField] private AudioClip BlockHitsOtherBlock;
+    [SerializeField] private AudioClip BlockHitsOtherGround;
     [SerializeField] private AudioClip EnemyDies;
 
     
