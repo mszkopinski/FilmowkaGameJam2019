@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using Sirenix.OdinInspector.Editor.Validation;
 using UnityEngine;
 using WSGJ.Utils;
 
@@ -12,15 +11,16 @@ namespace WSGJ
 	    class BlockSpawnerData
 	    {
 		    public float DelayBetweenSpawns = 1.5f;
-		    public GameObject BlockPrefab = null;
+		    public GameObject[] BlockPrefabs = null;
 	    }
 	    
 	    [SerializeField, Header("Spawner Settings")]
 	    BlockSpawnerData spawnerData;
 
 		readonly List<FallingBlock> spawnedBlocks = new List<FallingBlock>();
-		IEnumerator blocksSpawningCoroutine = null;
+		IEnumerator blocksSpawningCoroutine;
 		WaitForSeconds waitForSeconds;
+		FallingBlock currentFallingBlock;
 		
 		protected override void Awake()
 		{
@@ -34,6 +34,14 @@ namespace WSGJ
 			waitForSeconds = new WaitForSeconds(spawnerData.DelayBetweenSpawns);
 			
 			StartSpawning();
+		}
+
+		void Update()
+		{
+			if(currentFallingBlock != null)
+			{
+				currentFallingBlock.SetSpeedUpActive(Input.GetKey(KeyCode.Space));
+			}
 		}
 
 		void OnDestroy()
@@ -59,29 +67,65 @@ namespace WSGJ
 			blocksSpawningCoroutine = null;
 		}
 
+		bool shouldSpawnNextBlock = true;
+
 		IEnumerator BlocksSpawningCoroutine()
 		{
 			while(true)
 			{
+				if(shouldSpawnNextBlock)
+				{
+					var spawnedBlock = Instantiate(
+							spawnerData.BlockPrefabs.GetRandomElement(), 
+							Vector3.zero, 
+							Quaternion.identity, null)
+						.GetComponent<FallingBlock>();
+
+					var targetPos = GetRandomTopPosition();
+					targetPos.y += spawnedBlock.SpriteBounds.y / 2f;
+					spawnedBlock.transform.position = targetPos;
+					
+					spawnedBlock.Placed += () =>
+					{
+						shouldSpawnNextBlock = true;
+						OnAnyBlockPlaced(spawnedBlock);
+					};
+
+					spawnedBlock.Destroyed += () => { shouldSpawnNextBlock = true; };
+					
+					shouldSpawnNextBlock = false;	
+				}
+
 				yield return waitForSeconds;
-				Debug.Log("Should spawn block");
-				var spawnedBlock = Instantiate(spawnerData.BlockPrefab, transform);
-				spawnedBlock.transform.position = GetRandomTopPosition();
 			}
 		}
 
 		Vector2 GetRandomTopPosition()
 		{
 			var mainCamera = CameraController.Instance.MainCamera;
-			var topPosition = Vector2.zero;
-			topPosition.y = Screen.height;
-			topPosition.x = Screen.width / 2f; // add 
-			return mainCamera.ScreenToWorldPoint(topPosition);
+			var screenTopPosition = Vector3.zero;
+			screenTopPosition.y = Screen.height;
+			screenTopPosition.x = Screen.width / 2f; // add random horizontal offset
+			screenTopPosition.z = mainCamera.nearClipPlane;
+			var targetPos = mainCamera.ScreenToWorldPoint(screenTopPosition);
+			Debug.Log(targetPos.ToString());
+			return targetPos;
 		}
 		
 		void OnAnyBlockSpawned(FallingBlock fallingBlock)
 		{
+			if(currentFallingBlock != null)
+				return;
 			
+			currentFallingBlock = fallingBlock;
+		}
+
+		void OnAnyBlockPlaced(FallingBlock fallingBlock)
+		{
+			if(currentFallingBlock == null)
+				return;
+
+			currentFallingBlock = null;
 		}
 	}
 }
