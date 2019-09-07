@@ -153,9 +153,8 @@ namespace WSGJ
 			
 			StopAllCoroutines();
 
-			rb.velocity = Vector2.zero;
-			
 			transform.SetParent(truckController.transform);
+			rb.velocity = Vector2.zero;
 
 			Placed?.Invoke();
 		}

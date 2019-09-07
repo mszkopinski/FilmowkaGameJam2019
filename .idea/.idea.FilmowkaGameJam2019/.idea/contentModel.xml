@@ -16,6 +16,11 @@
         <e p="CatapultRock.cs" t="Include" />
         <e p="CatapultShooting.cs" t="Include" />
         <e p="EnemyController.cs" t="Include" />
+        <e p="GFX" t="Include">
+          <e p="Shaders" t="Include">
+            <e p="DiffuseNoise.shader" t="Include" />
+          </e>
+        </e>
         <e p="Plugins" t="Include">
           <e p="Demigiant" t="Include">
             <e p="DOTween" t="Include">
@@ -61,7 +66,6 @@
           <e p="Camera" t="Include">
             <e p="CameraController.cs" t="Include" />
           </e>
-          <e p="Shaders" t="Include" />
           <e p="SpaceInvanderEntity.cs" t="Include" />
           <e p="Truck" t="Include">
             <e p="TruckController.cs" t="Include" />

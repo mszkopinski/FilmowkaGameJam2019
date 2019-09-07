@@ -5,6 +5,8 @@
       <change beforePath="$PROJECT_DIR$/.idea/.idea.FilmowkaGameJam2019/.idea/contentModel.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.FilmowkaGameJam2019/.idea/contentModel.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.FilmowkaGameJam2019/.idea/indexLayout.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.FilmowkaGameJam2019/.idea/indexLayout.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.FilmowkaGameJam2019/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.FilmowkaGameJam2019/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/BOXOPHOBIC/Skybox Cubemap Extended/Materials/Skybox Cubemap Extended.mat" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/BOXOPHOBIC/Skybox Cubemap Extended/Materials/Skybox Cubemap Extended.mat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/BOXOPHOBIC/Skybox Cubemap Extended/Textures/Polyverse Skies - Blue Sky.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/BOXOPHOBIC/Skybox Cubemap Extended/Textures/Polyverse Skies - Blue Sky.png.meta" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/EntityCache/Resources.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/EntityCache/Resources.meta" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Prefabs/Truck_Prefab.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/Truck_Prefab.prefab" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scenes/Game.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/Game.unity" afterDir="false" />
@@ -20,11 +22,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Assets/Scripts/Blocks/FallingBlock.cs">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="455">
-              <caret line="79" column="33" selection-start-line="79" selection-start-column="33" selection-end-line="79" selection-end-column="33" />
+            <state relative-caret-position="418">
+              <caret line="78" column="27" selection-start-line="78" selection-start-column="27" selection-end-line="78" selection-end-column="27" />
               <folding>
                 <marker date="1567863659306" expanded="true" signature="6:69" ph="..." />
                 <marker date="1567863659306" expanded="true" signature="85:3657" ph="{...}" />
@@ -50,6 +52,22 @@
                 <marker date="1567863659306" expanded="true" signature="3239:3314" ph="{...}" />
                 <marker date="1567863659306" expanded="true" signature="3370:3405" ph="{...}" />
                 <marker date="1567863659306" expanded="true" signature="3478:3652" ph="{...}" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/Assets/GFX/Shaders/DiffuseNoise.shader">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="314">
+              <caret line="90" column="1" lean-forward="true" selection-start-line="90" selection-start-column="1" selection-end-line="90" selection-end-column="1" />
+              <folding>
+                <marker date="1567865278345" expanded="true" signature="0:138" ph="/* Upgrade NOTE: replaced '_World2Object' with 'unity_WorldToObject' ... */" />
+                <marker date="1567865278345" expanded="true" signature="170:2991" ph="{...}" />
+                <marker date="1567865278345" expanded="true" signature="185:617" ph="{...}" />
+                <marker date="1567865278345" expanded="true" signature="630:2947" ph="{...}" />
+                <marker date="1567865278345" expanded="true" signature="746:2940" ph="{...}" />
               </folding>
             </state>
           </provider>
@@ -159,6 +177,7 @@
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/Truck/TruckController.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/Blocks/FallingBlock.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/Utils/MonoSingleton.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/GFX/Shaders/DiffuseNoise.shader" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
@@ -170,6 +189,7 @@
         <option value="$PROJECT_DIR$/Assets/Scripts/Utils/Extensions.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/Blocks/BlocksSpawner.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/Blocks/FallingBlock.cs" />
+        <option value="$PROJECT_DIR$/Assets/GFX/Shaders/DiffuseNoise.shader" />
       </list>
     </option>
   </component>
@@ -199,31 +219,18 @@
             <path>
               <item name="" type="e068e287:UnityExplorerRootNode" />
               <item name="Assets" type="8711f2a6:AssetsRoot" />
-              <item name="Scripts" type="1045f7f1:UnityExplorerNode" />
+              <item name="GFX" type="1045f7f1:UnityExplorerNode" />
+            </path>
+            <path>
+              <item name="" type="e068e287:UnityExplorerRootNode" />
+              <item name="Assets" type="8711f2a6:AssetsRoot" />
+              <item name="GFX" type="1045f7f1:UnityExplorerNode" />
+              <item name="Shaders" type="1045f7f1:UnityExplorerNode" />
             </path>
             <path>
               <item name="" type="e068e287:UnityExplorerRootNode" />
               <item name="Assets" type="8711f2a6:AssetsRoot" />
               <item name="Scripts" type="1045f7f1:UnityExplorerNode" />
-              <item name="Blocks" type="1045f7f1:UnityExplorerNode" />
-            </path>
-            <path>
-              <item name="" type="e068e287:UnityExplorerRootNode" />
-              <item name="Assets" type="8711f2a6:AssetsRoot" />
-              <item name="Scripts" type="1045f7f1:UnityExplorerNode" />
-              <item name="Camera" type="1045f7f1:UnityExplorerNode" />
-            </path>
-            <path>
-              <item name="" type="e068e287:UnityExplorerRootNode" />
-              <item name="Assets" type="8711f2a6:AssetsRoot" />
-              <item name="Scripts" type="1045f7f1:UnityExplorerNode" />
-              <item name="Truck" type="1045f7f1:UnityExplorerNode" />
-            </path>
-            <path>
-              <item name="" type="e068e287:UnityExplorerRootNode" />
-              <item name="Assets" type="8711f2a6:AssetsRoot" />
-              <item name="Scripts" type="1045f7f1:UnityExplorerNode" />
-              <item name="Utils" type="1045f7f1:UnityExplorerNode" />
             </path>
             <path>
               <item name="" type="e068e287:UnityExplorerRootNode" />
@@ -289,12 +296,12 @@
       <workItem from="1567791505446" duration="3821000" />
       <workItem from="1567845739234" duration="360000" />
       <workItem from="1567846149143" duration="201000" />
-      <workItem from="1567846507880" duration="15181000" />
+      <workItem from="1567846507880" duration="15963000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="19993000" />
+    <option name="totallyTimeSpent" value="20775000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -307,6 +314,7 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1066" extended-state="6" />
+    <editor active="true" />
     <layout>
       <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.19232818" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
@@ -448,8 +456,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/Assets/Scripts/Blocks/FallingBlock.cs">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="455">
-          <caret line="79" column="33" selection-start-line="79" selection-start-column="33" selection-end-line="79" selection-end-column="33" />
+        <state relative-caret-position="418">
+          <caret line="78" column="27" selection-start-line="78" selection-start-column="27" selection-end-line="78" selection-end-column="27" />
           <folding>
             <marker date="1567863659306" expanded="true" signature="6:69" ph="..." />
             <marker date="1567863659306" expanded="true" signature="85:3657" ph="{...}" />
@@ -475,6 +483,20 @@
             <marker date="1567863659306" expanded="true" signature="3239:3314" ph="{...}" />
             <marker date="1567863659306" expanded="true" signature="3370:3405" ph="{...}" />
             <marker date="1567863659306" expanded="true" signature="3478:3652" ph="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Assets/GFX/Shaders/DiffuseNoise.shader">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="314">
+          <caret line="90" column="1" lean-forward="true" selection-start-line="90" selection-start-column="1" selection-end-line="90" selection-end-column="1" />
+          <folding>
+            <marker date="1567865278345" expanded="true" signature="0:138" ph="/* Upgrade NOTE: replaced '_World2Object' with 'unity_WorldToObject' ... */" />
+            <marker date="1567865278345" expanded="true" signature="170:2991" ph="{...}" />
+            <marker date="1567865278345" expanded="true" signature="185:617" ph="{...}" />
+            <marker date="1567865278345" expanded="true" signature="630:2947" ph="{...}" />
+            <marker date="1567865278345" expanded="true" signature="746:2940" ph="{...}" />
           </folding>
         </state>
       </provider>
