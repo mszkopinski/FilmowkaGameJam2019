@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using DragonBones;
+using TMPro;
 using UnityEngine;
 using Transform = UnityEngine.Transform;
 
@@ -89,7 +90,14 @@ namespace WSGJ
 		{
 			while(true)
 			{
+				if(IsDead)
+					yield break;
+				
 				yield return new WaitForSeconds(delayBetweenAttacks);
+				
+				if(IsDead)
+					yield break;
+				
 				truckController.OnDamageTaken(attackDamage);
 				ArmatureComponent.animation.Play("atack", 1);
 			}

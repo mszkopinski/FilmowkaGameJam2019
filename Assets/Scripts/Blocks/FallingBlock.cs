@@ -116,9 +116,13 @@ namespace WSGJ
 			{
 				var targetRotation = transform.localRotation.eulerAngles;
 				targetRotation.z = targetRotation.z + (isRotatingLeft ? 90f : -90f);
-				transform.DOLocalRotate(targetRotation, RotateTransitionTime)
+				transform.DORotate(targetRotation, RotateTransitionTime)
 					.OnStart(() => { canRotateBlock = false; })
-					.OnComplete(() => { canRotateBlock = true; });
+					.OnComplete(() =>
+					{
+						canRotateBlock = true; 
+						Debug.Log(transform.right.ToString());
+					});
 			}
 		}
 		

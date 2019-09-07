@@ -44,7 +44,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 83a206a391c1460eaa255e1e44c4a5ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  destructionRange: 4
+  destructionRange: 2.5
 --- !u!58 &361110584
 CircleCollider2D:
   m_ObjectHideFlags: 0

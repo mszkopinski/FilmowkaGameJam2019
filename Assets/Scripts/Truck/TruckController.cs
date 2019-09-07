@@ -60,11 +60,6 @@ namespace WSGJ
 
 		void Update()
 		{
-			if(Input.GetKeyDown(KeyCode.K))
-			{
-				OnBlockAttached(null);
-			}
-			
 			if((UnityEngine.Object)currentTargetNode == null)
 				return;
 

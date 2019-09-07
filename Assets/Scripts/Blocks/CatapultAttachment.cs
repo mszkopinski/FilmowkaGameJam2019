@@ -18,11 +18,13 @@ namespace WSGJ
         readonly int isThrowingHash = Animator.StringToHash("isThrowing");
         readonly List<CatapultRock> projectiles = new List<CatapultRock>();
         AudioSource thisAudioSource;
+        FallingBlock parentBlock;
 
         void Awake()
         {
             animator = GetComponent<Animator>();
             thisAudioSource = GetComponent<AudioSource>();
+            parentBlock = GetComponentInParent<FallingBlock>();
         }
 
         void Start()
@@ -65,10 +67,15 @@ namespace WSGJ
 				//thisAudioSource.PlayOneShot(SoundManager.Instance.CatapultShot);                  
                 }
             }
-            
-            if(rockToThrow != null)
+
+            if(parentBlock == null)
             {
-                rockToThrow.Launch(transform.right);
+                parentBlock = GetComponentInParent<FallingBlock>();
+            }
+            
+            if(rockToThrow != null && parentBlock != null)
+            {
+                rockToThrow.Launch(parentBlock.transform.right);
                 projectiles.Remove(rockToThrow);
             }
         }
