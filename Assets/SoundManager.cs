@@ -16,6 +16,8 @@ public class SoundManager : MonoSingleton<SoundManager>
     public AudioClip BlockHitsGround;
     public AudioClip EnemyDies;
 
+    public AudioClip PigDies;
+
     
     void Start()
     {
