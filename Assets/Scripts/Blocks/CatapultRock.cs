@@ -14,7 +14,7 @@ namespace WSGJ
 		
 		void Awake()
 		{
-			Invoke(nameof(Destroy), lifeTime);
+			Invoke(nameof(DestroyProjectile), lifeTime);
 		}
 
 		void Update()
@@ -22,6 +22,7 @@ namespace WSGJ
 			if(!isLaunched)
 				return;
 			
+			Debug.Log(launchVector.ToString());
 			transform.Translate(projectileVelocity * Time.deltaTime * launchVector);
 		}
 		
@@ -32,9 +33,9 @@ namespace WSGJ
 			isLaunched = true;
 		}
 
-		void Destroy()
+		void DestroyProjectile()
 		{
-			Destroy(this);
+			Destroy(gameObject);
 		}
 	}
 }

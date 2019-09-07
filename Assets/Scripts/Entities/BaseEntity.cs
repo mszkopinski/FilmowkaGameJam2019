@@ -30,7 +30,7 @@ namespace WSGJ
 			
 			if(!(distance < 50f))
 			{
-				transform.position += movementSpeed * Time.deltaTime * -transform.right;
+				transform.position += movementSpeed * Time.deltaTime * transform.right;
 			}
 		}
 
