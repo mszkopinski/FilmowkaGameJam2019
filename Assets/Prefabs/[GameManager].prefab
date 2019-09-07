@@ -120,6 +120,7 @@ MonoBehaviour:
     ChanceToSpawnAttachment: 0.5
     BlockAttachments:
     - {fileID: 5613150730789546583, guid: 32f14409936c6a6469ace6a17704fe21, type: 3}
+    - {fileID: 6401718453265964562, guid: be4b267bd51c369419a8701f0f6263f7, type: 3}
 --- !u!114 &1023924494
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -157,7 +158,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 1
-  m_Volume: 0.5
+  m_Volume: 1
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -258,7 +259,8 @@ MonoBehaviour:
   CatapultShot: {fileID: 8300000, guid: 2ff647a2356196747b82b4842358ab61, type: 3}
   BoxingHit: {fileID: 8300000, guid: b7ee8194e5566bc48b7baaa2da5664c2, type: 3}
   GreatAxe: {fileID: 8300000, guid: c70126aaf16c47b4288693fa798f1ac4, type: 3}
-  BlockHitsTheCart: {fileID: 8300000, guid: 267ec6095acf905479f588ced7232959, type: 3}
+  BlockHitsTheCart: {fileID: 8300000, guid: b35f165de1c123642865c59306265799, type: 3}
   BlockHitsOtherBlock: {fileID: 8300000, guid: fd32fcc03ffde1a4683c4fa0d36da5af, type: 3}
   BlockHitsGround: {fileID: 8300000, guid: 19b1d4ec64ef7cf44a6b930fff94de25, type: 3}
   EnemyDies: {fileID: 8300000, guid: d88fc23c6ce886640851dd8f91090522, type: 3}
+  PigDies: {fileID: 0}
