@@ -18,6 +18,7 @@ namespace WSGJ
 		{
 			get => AttachedTruck != null;
 		}
+		
 		public TruckController AttachedTruck { get; private set; }
 
 		public Vector2 SpriteBounds
@@ -48,7 +49,11 @@ namespace WSGJ
 		float boostedVelocity = 5f;
 		[SerializeField]
 		float horizontalStepSize = 1.5f;
-
+		[SerializeField]
+		Transform attachmentSlot;
+		[SerializeField]
+		GameObject explosionParticles;
+		
 		bool canRotateBlock = true;
 		bool canMoveBlock = true;
 		SpriteRenderer spriteRenderer;
@@ -113,21 +118,24 @@ namespace WSGJ
 			}
 		}
 		
-		void OnCollisionEnter2D(Collision2D collision2D)
+		void OnCollisionEnter2D(Collision2D col)
 		{
-			if(collision2D.HasCollidedWithGround())
+			if(col.HasCollidedWithGround())
 			{
-				Debug.Log("BLOCK SHOULD'VE DESTROYED");
 				OnBlockDestroyed();	
 			}
 
-			if(collision2D.HasCollidedWithBlock())
+			if(col.HasCollidedWithBlock())
 			{
-				var otherBlock = collision2D.collider.GetComponent<FallingBlock>();
+				var otherBlock = col.collider.GetComponentInParent<FallingBlock>();
 				if(otherBlock != null && otherBlock.IsAttachedToTruck)
 				{
 					var truckController = otherBlock.AttachedTruck;
 					OnBlockPlaced(truckController);
+				}
+				else
+				{
+					Debug.Log("TU JEST KUTAS POGRTZEBANY");
 				}
 			}
 		}
@@ -152,6 +160,8 @@ namespace WSGJ
 				.OnComplete(() =>
 				{
 					Destroyed?.Invoke();
+					var explosion = Instantiate(explosionParticles);
+					explosion.transform.position = transform.position;
 					Destroy(gameObject);
 				});
 		}
@@ -159,6 +169,16 @@ namespace WSGJ
 		public void SetSpeedUpActive(bool isActive)
 		{
 			currentVelocity = isActive ? boostedVelocity : defaultVelocity;
+		}
+
+		public void AttachUpgrade(GameObject attachment)
+		{
+			if(attachment == null || attachmentSlot == null)
+				return;
+			
+			var attachmentTransform = attachment.transform;
+			attachmentTransform.SetParent(attachmentSlot);
+			attachmentTransform.localPosition = Vector3.zero;
 		}
 
 		protected virtual void OnSpawned(FallingBlock @this)
@@ -172,7 +192,7 @@ namespace WSGJ
 			
 			StopAllCoroutines();
 
-			transform.SetParent(truckController.transform);
+			transform.SetParent(AttachedTruck.transform);
 			
 			rb.isKinematic = true;
 			rb.velocity = Vector2.zero;
