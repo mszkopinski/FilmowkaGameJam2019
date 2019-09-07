@@ -1,5 +1,6 @@
 using DG.Tweening;
 using UnityEngine;
+using UnityEngine.Rendering.PostProcessing;
 using WSGJ.Utils;
 
 namespace WSGJ
@@ -18,8 +19,16 @@ namespace WSGJ
 		[SerializeField]
 		bool cameraShakeFadeOut = false;
 		
-		
 		public Camera MainCamera { get; private set; }
+		PostProcessVolume ppVolume;
+		
+		protected override void Awake()
+		{
+			base.Awake();
+			MainCamera = GetComponent<Camera>();
+
+			ppVolume = GetComponent<PostProcessVolume>();
+		}
 
 		void Update()
 		{
@@ -38,10 +47,38 @@ namespace WSGJ
 				cameraShakeFadeOut);
 		}
 
-		protected override void Awake()
+		public Vector2 GetScreenTopPosition()
 		{
-			base.Awake();
-			MainCamera = GetComponent<Camera>();
+			var screenTopPosition = Vector3.zero;
+			screenTopPosition.y = Screen.height;
+			screenTopPosition.x = Screen.width / 2f;
+			screenTopPosition.z = MainCamera.nearClipPlane;
+			var targetPos = MainCamera.ScreenToWorldPoint(screenTopPosition);
+			return targetPos;
+		}
+
+		public void PlaySpeedUpEffect(float intensityValue, float vignetteValue)
+		{
+			ppVolume.profile.TryGetSettings<LensDistortion>(out var lensDistortion);
+			ppVolume.profile.TryGetSettings<Vignette>(out var vignette);
+
+			if(lensDistortion != null)
+			{
+				DOTween.Sequence().Append(
+					DOTween.To(() => lensDistortion.intensity,
+						x => lensDistortion.intensity.Override(x),
+						intensityValue,
+						.2f)).SetEase(Ease.InOutCubic);	
+			}
+
+			if(vignette != null)
+			{
+				DOTween.Sequence().Append(
+					DOTween.To(() => vignette.intensity,
+						x => vignette.intensity.Override(x),
+						vignetteValue,
+						.2f)).SetEase(Ease.InOutCubic);	
+			}
 		}
 	}
 }

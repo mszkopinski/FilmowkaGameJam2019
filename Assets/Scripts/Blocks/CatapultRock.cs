@@ -22,7 +22,6 @@ namespace WSGJ
 			if(!isLaunched)
 				return;
 			
-			Debug.Log(launchVector.ToString());
 			transform.Translate(projectileVelocity * Time.deltaTime * launchVector);
 		}
 		

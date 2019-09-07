@@ -1,6 +1,7 @@
 using System;
 using DG.Tweening;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using WSGJ.Utils;
 
 namespace WSGJ
@@ -167,10 +168,19 @@ namespace WSGJ
 					Destroy(gameObject);
 				});
 		}
+
+		bool isSpeedUpActive = false;
 		
 		public void SetSpeedUpActive(bool isActive)
 		{
-			currentVelocity = isActive ? boostedVelocity : defaultVelocity;
+			if(isActive == isSpeedUpActive)
+				return;
+
+			isSpeedUpActive = isActive;
+			currentVelocity = isSpeedUpActive ? boostedVelocity : defaultVelocity;
+			// CameraController.Instance.PlaySpeedUpEffect(
+			// 	isSpeedUpActive ? -18f : 0f, 
+			// 	isSpeedUpActive ? 0.596f : 0.364f);
 		}
 
 		public void AttachUpgrade(GameObject attachment)
@@ -201,6 +211,11 @@ namespace WSGJ
 
 			Placed?.Invoke();
 			CameraController.Instance.ShakeCamera();
+
+			if(transform.position.y > CameraController.Instance.GetScreenTopPosition().y - 5f)
+			{
+				SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+			}
 		}
 	}
 }

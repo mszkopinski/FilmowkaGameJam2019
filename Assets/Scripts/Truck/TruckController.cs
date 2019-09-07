@@ -34,6 +34,8 @@ namespace WSGJ
 		float movementVelocity = 2f;
 		[SerializeField]
 		List<Transform> wheelTransforms;
+		[SerializeField]
+		float destructionRange = 9f;
 
 		Rigidbody2D rigidBody;
 		Transform currentTargetNode;
@@ -92,6 +94,18 @@ namespace WSGJ
 		{
 			animator.SetTrigger(wheatDroppedAnimHash);
 			++attachedBlocksCounter;
+
+			Collider2D[] results = new Collider2D[30];
+			var size = Physics2D.OverlapCircleNonAlloc(transform.position, destructionRange, 
+				results, LayerMask.GetMask("Enemy"));
+
+			foreach(var col in results)
+			{
+				if((UnityEngine.Object)col == null) continue;
+				var baseEntity = col.GetComponentInParent<BaseEntity>();
+				if(baseEntity)
+					baseEntity.OnEntityDied();										
+			}
 		}
 
 		public void OnDamageTaken(float dmgValue)
@@ -102,6 +116,11 @@ namespace WSGJ
 		protected virtual void OnHealthChanged(float newAmount, float maxAmount)
 		{
 			HealthChanged?.Invoke(newAmount, maxAmount);
+		}
+
+		void OnDrawGizmos()
+		{
+			Gizmos.DrawWireSphere(transform.position, destructionRange);
 		}
 	}
 }

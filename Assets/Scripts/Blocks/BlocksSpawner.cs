@@ -63,7 +63,8 @@ namespace WSGJ
 		{
 			if(currentFallingBlock != null)
 			{
-				currentFallingBlock.SetSpeedUpActive(Input.GetKey(KeyCode.Space));
+				bool isSpacePressed = Input.GetKey(KeyCode.Space); 
+				currentFallingBlock.SetSpeedUpActive(isSpacePressed);
 			}
 		}
 
@@ -113,7 +114,7 @@ namespace WSGJ
 						spawnedBlock.AttachUpgrade(spawnedAttachement);
 					}
 					
-					var targetPos = GetRandomTopPosition();
+					var targetPos = CameraController.Instance.GetScreenTopPosition();
 					targetPos.y += spawnedBlock.SpriteBounds.y / 2f;
 					spawnedBlock.transform.position = targetPos;
 				
@@ -136,17 +137,6 @@ namespace WSGJ
 			}
 		}
 
-		Vector2 GetRandomTopPosition()
-		{
-			var mainCamera = CameraController.Instance.MainCamera;
-			var screenTopPosition = Vector3.zero;
-			screenTopPosition.y = Screen.height;
-			screenTopPosition.x = Screen.width / 2f; // add random horizontal offset
-			screenTopPosition.z = mainCamera.nearClipPlane;
-			var targetPos = mainCamera.ScreenToWorldPoint(screenTopPosition);
-			return targetPos;
-		}
-		
 		void OnAnyBlockSpawned(FallingBlock fallingBlock)
 		{
 			if(currentFallingBlock != null)

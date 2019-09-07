@@ -1,6 +1,7 @@
 using System;
-using System.Globalization;
+using DragonBones;
 using UnityEngine;
+using Transform = UnityEngine.Transform;
 
 namespace WSGJ
 {
@@ -10,14 +11,20 @@ namespace WSGJ
 		float movementSpeed;
 
 		Transform currentTarget;
+		protected UnityArmatureComponent ArmatureComponent;
+		protected bool CanMove = true;
 
 		void Awake()
 		{
+			ArmatureComponent = GetComponentInChildren<UnityArmatureComponent>(true);
 			SetTarget(FindObjectOfType<TruckController>()?.transform);
 		}
 
 		void Update()
 		{
+			if(CanMove == false)
+				return;
+			
 			if((UnityEngine.Object)currentTarget == null)
 				return;
 			
@@ -28,15 +35,23 @@ namespace WSGJ
 			newScale.x = Math.Sign(dir.x) > 0 ? -1f : 1f;
 			transform.localScale = newScale;
 			
-			if(!(distance < 50f))
+			transform.position += movementSpeed * Time.deltaTime * transform.right;
+
+			if(!(distance < 25f))
 			{
-				transform.position += movementSpeed * Time.deltaTime * transform.right;
+				Debug.Log("Should attack.");
 			}
+
 		}
 
 		protected virtual void SetTarget(Transform target)
 		{
 			currentTarget = target;
+		}
+
+		public virtual void OnEntityDied()
+		{
+			CanMove = false;
 		}
 	}
 }
