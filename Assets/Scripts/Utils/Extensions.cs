@@ -13,7 +13,12 @@ namespace WSGJ.Utils
 		
 		public static bool HasCollidedWithTruck(this Collision2D collision)
 		{
-			return collision.collider.CompareTag("Truck");
+			return collision.collider.HasCollidedWithTruck();
+		}
+		
+		public static bool HasCollidedWithTruck(this Collider2D collider)
+		{
+			return collider.CompareTag("Truck");
 		}
 
 		public static T GetRandomElement<T>(this T[] arr)
