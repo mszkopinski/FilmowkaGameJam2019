@@ -31,7 +31,7 @@ namespace WSGJ
 
 		void Update()
 		{
-			if(CanMove == false)
+			if(CanMove == false || IsDead)
 				return;
 			
 			if((UnityEngine.Object)currentTarget == null)
@@ -93,6 +93,12 @@ namespace WSGJ
 				truckController.OnDamageTaken(attackDamage);
 				ArmatureComponent.animation.Play("atack", 1);
 			}
+		}
+
+		void OnTriggerEnter2D(Collider2D other)
+		{
+			if(other.CompareTag("Weapon") == false) return;
+			OnEntityDied();
 		}
 
 		public virtual void OnEntityDied()
