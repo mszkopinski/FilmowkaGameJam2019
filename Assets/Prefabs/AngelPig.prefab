@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 6739824087958851350}
   - component: {fileID: 8339226902270283974}
   - component: {fileID: 2589999861820992625}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: leg_back
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -88,7 +88,7 @@ GameObject:
   - component: {fileID: 7512080680757572640}
   - component: {fileID: 7233402091505868506}
   - component: {fileID: 3404948999648444143}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: leg_back_2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -165,7 +165,7 @@ GameObject:
   - component: {fileID: 2947023630206978206}
   - component: {fileID: 4855751251613935232}
   - component: {fileID: 5839502738153593290}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: leg_front
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -242,7 +242,7 @@ GameObject:
   - component: {fileID: 5625506505770515129}
   - component: {fileID: 2081105879837822294}
   - component: {fileID: 4892736910343653627}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: leg_front_1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -319,7 +319,7 @@ GameObject:
   - component: {fileID: 6632374641626310759}
   - component: {fileID: 390415665570771955}
   - component: {fileID: 4502103075846380444}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: fly1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -396,8 +396,11 @@ GameObject:
   - component: {fileID: 1920932656802541480}
   - component: {fileID: 2693672119631963167}
   - component: {fileID: 3913600700561509012}
-  m_Layer: 0
-  m_Name: Piggy
+  - component: {fileID: 1834991394}
+  - component: {fileID: 1834991393}
+  - component: {fileID: 6155777341998692142}
+  m_Layer: 8
+  m_Name: AngelPig
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -475,6 +478,65 @@ MonoBehaviour:
   - leg_front
   - fly
   dirty: 0
+--- !u!50 &1834991394
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4183598350207866171}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0
+  m_GravityScale: 0
+  m_Material: {fileID: 0}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0
+--- !u!114 &1834991393
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4183598350207866171}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6e18523d89d9d1146b5a8dac7b9cb2d4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!61 &6155777341998692142
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4183598350207866171}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0.72}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 1.7, y: 1}
+  m_EdgeRadius: 0
 --- !u!1 &4624499455939287203
 GameObject:
   m_ObjectHideFlags: 0
@@ -486,7 +548,7 @@ GameObject:
   - component: {fileID: 5213193463508276107}
   - component: {fileID: 3882954964569582184}
   - component: {fileID: 2381183946242536783}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: tail
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -563,7 +625,7 @@ GameObject:
   - component: {fileID: 1818265231857351126}
   - component: {fileID: 7765857939414610032}
   - component: {fileID: 5313236219685878424}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: head
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -640,7 +702,7 @@ GameObject:
   - component: {fileID: 3464860864991264665}
   - component: {fileID: 6234348996050883635}
   - component: {fileID: 2171075488436656589}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: torso
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -717,7 +779,7 @@ GameObject:
   - component: {fileID: 8351827527082934237}
   - component: {fileID: 8015663900665508876}
   - component: {fileID: 38451682734500289}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: fly
   m_TagString: Untagged
   m_Icon: {fileID: 0}
