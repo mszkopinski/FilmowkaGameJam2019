@@ -35,11 +35,11 @@ namespace WSGJ
 			newScale.x = Math.Sign(dir.x) > 0 ? -1f : 1f;
 			transform.localScale = newScale;
 			
-			transform.position += movementSpeed * Time.deltaTime * transform.right;
+			transform.position += movementSpeed * Time.deltaTime * Math.Sign(dir.x) * transform.right;
 
 			if(!(distance < 25f))
-			{
-				Debug.Log("Should attack.");
+			{			
+				ArmatureComponent.animation.Play("attack");
 			}
 
 		}

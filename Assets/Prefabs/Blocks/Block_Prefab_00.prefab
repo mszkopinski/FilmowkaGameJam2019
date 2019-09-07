@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6268736065361721312}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: AttachmentSlot
   m_TagString: Untagged
   m_Icon: {fileID: 5132851093641282708, guid: 0000000000000000d000000000000000, type: 0}
@@ -41,7 +41,7 @@ GameObject:
   - component: {fileID: 6935510364511437667}
   - component: {fileID: 6935510364511437666}
   - component: {fileID: 6935510364584586133}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: FallingBlock_Sprite
   m_TagString: FallingBlock
   m_Icon: {fileID: 0}
@@ -148,7 +148,7 @@ GameObject:
   - component: {fileID: 4605696842291691068}
   - component: {fileID: 6935510365582051339}
   - component: {fileID: 5186262055846528557}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Block_Prefab_00
   m_TagString: FallingBlock
   m_Icon: {fileID: 0}
