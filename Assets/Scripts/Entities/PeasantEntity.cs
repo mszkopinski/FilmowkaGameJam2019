@@ -6,14 +6,12 @@ namespace WSGJ
 		{
 			base.OnEntityDied();
 			
-			ArmatureComponent.animation.Play("die");
-			var currAnim = ArmatureComponent.animation;
-
-			if(currAnim != null)
-			{
-				var duration = currAnim.animationConfig.duration;
-				Invoke(nameof(DestroyEntity), duration);
-			}
+			if(IsDead)
+				return;
+			
+			ArmatureComponent.animation.Play("die", 1);
+			Invoke(nameof(DestroyEntity), 10f);
+			IsDead = true;
 		}
 
 		void DestroyEntity()

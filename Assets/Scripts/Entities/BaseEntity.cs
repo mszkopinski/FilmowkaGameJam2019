@@ -13,6 +13,7 @@ namespace WSGJ
 		Transform currentTarget;
 		protected UnityArmatureComponent ArmatureComponent;
 		protected bool CanMove = true;
+		protected bool IsDead = false;
 
 		void Awake()
 		{
@@ -34,14 +35,25 @@ namespace WSGJ
 			var newScale = transform.localScale;
 			newScale.x = Math.Sign(dir.x) > 0 ? -1f : 1f;
 			transform.localScale = newScale;
-			
-			transform.position += movementSpeed * Time.deltaTime * Math.Sign(dir.x) * transform.right;
 
-			if(!(distance < 25f))
-			{			
-				ArmatureComponent.animation.Play("attack");
+			bool isInAttackRange = distance < 25f;
+
+			if(!isInAttackRange)
+			{
+				transform.position += movementSpeed * Time.deltaTime * Math.Sign(dir.x) * transform.right;
+
+				if(ArmatureComponent.animationName != "move")
+				{
+					ArmatureComponent.animation.Play("move", -1);
+				}
 			}
-
+			else
+			{
+				if(ArmatureComponent.animationName != "atack")
+				{
+					ArmatureComponent.animation.Play("atack", 1);
+				}
+			}
 		}
 
 		protected virtual void SetTarget(Transform target)

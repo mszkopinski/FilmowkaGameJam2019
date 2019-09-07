@@ -140,10 +140,7 @@ namespace WSGJ
 				{
 					var truckController = otherBlock.AttachedTruck;
 					OnBlockPlaced(truckController);
-				}
-				else
-				{
-					Debug.Log("TU JEST KUTAS POGRTZEBANY");
+					truckController.OnBlockAttached(this);
 				}
 			}
 		}
@@ -165,7 +162,6 @@ namespace WSGJ
 
 		void OnBlockDestroyed()
 		{
-			
 			transform.DOScale(Vector3.zero, .15f)
 				.SetEase(Ease.InOutBounce)
 				.OnComplete(() =>
@@ -219,7 +215,7 @@ namespace WSGJ
 			rb.velocity = Vector2.zero;
 
 			Placed?.Invoke();
-			CameraController.Instance.ShakeCamera();
+			CameraController.Instance.ShakeCamera(1f + AttachedTruck.AttachedBlocksCounter * .05f);
 
 			if(transform.position.y > CameraController.Instance.GetScreenTopPosition().y - 1.5f)
 			{
