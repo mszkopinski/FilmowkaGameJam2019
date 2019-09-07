@@ -154,6 +154,8 @@ namespace WSGJ
 			StopAllCoroutines();
 
 			transform.SetParent(truckController.transform);
+			
+			rb.isKinematic = true;
 			rb.velocity = Vector2.zero;
 
 			Placed?.Invoke();
