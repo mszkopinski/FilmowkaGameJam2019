@@ -18,6 +18,7 @@ namespace WSGJ
 		{
 			get => AttachedTruck != null;
 		}
+		
 		public TruckController AttachedTruck { get; private set; }
 
 		public Vector2 SpriteBounds
@@ -113,21 +114,24 @@ namespace WSGJ
 			}
 		}
 		
-		void OnCollisionEnter2D(Collision2D collision2D)
+		void OnCollisionEnter2D(Collision2D col)
 		{
-			if(collision2D.HasCollidedWithGround())
+			if(col.HasCollidedWithGround())
 			{
-				Debug.Log("BLOCK SHOULD'VE DESTROYED");
 				OnBlockDestroyed();	
 			}
 
-			if(collision2D.HasCollidedWithBlock())
+			if(col.HasCollidedWithBlock())
 			{
-				var otherBlock = collision2D.collider.GetComponent<FallingBlock>();
+				var otherBlock = col.collider.GetComponentInParent<FallingBlock>();
 				if(otherBlock != null && otherBlock.IsAttachedToTruck)
 				{
 					var truckController = otherBlock.AttachedTruck;
 					OnBlockPlaced(truckController);
+				}
+				else
+				{
+					Debug.Log("TU JEST KUTAS POGRTZEBANY");
 				}
 			}
 		}
@@ -172,7 +176,7 @@ namespace WSGJ
 			
 			StopAllCoroutines();
 
-			transform.SetParent(truckController.transform);
+			transform.SetParent(AttachedTruck.transform);
 			
 			rb.isKinematic = true;
 			rb.velocity = Vector2.zero;
