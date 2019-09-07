@@ -68,7 +68,6 @@ namespace WSGJ
 		public void OnBlockDropped(FallingBlock fallingBlock)
 		{
 			animator.SetTrigger(wheatDroppedAnimHash);
-			CameraController.Instance.ShakeCamera();
 		}
 	}
 }

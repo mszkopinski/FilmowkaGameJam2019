@@ -175,6 +175,7 @@ namespace WSGJ
 			rb.velocity = Vector2.zero;
 
 			Placed?.Invoke();
+			CameraController.Instance.ShakeCamera();
 		}
 	}
 }
