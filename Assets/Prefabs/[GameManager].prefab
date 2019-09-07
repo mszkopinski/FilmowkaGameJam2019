@@ -24,7 +24,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1879346874}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 20.12, y: -3.41, z: 0}
+  m_LocalPosition: {x: 20.12, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4737971740549211274}
@@ -54,7 +54,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2141027845}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -20.61, y: -3.41, z: 0}
+  m_LocalPosition: {x: -20.61, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4737971740549211274}
@@ -120,6 +120,7 @@ MonoBehaviour:
     ChanceToSpawnAttachment: 0.5
     BlockAttachments:
     - {fileID: 5613150730789546583, guid: 32f14409936c6a6469ace6a17704fe21, type: 3}
+    - {fileID: 2789093321483450383, guid: 4b13e08155ec5134c850d5f8fe30d96f, type: 3}
     - {fileID: 6401718453265964562, guid: be4b267bd51c369419a8701f0f6263f7, type: 3}
 --- !u!114 &1023924494
 MonoBehaviour:
@@ -140,6 +141,7 @@ MonoBehaviour:
     - {fileID: 1879346875}
     EnemiesPrefabs:
     - {fileID: 1341447931441949376, guid: a3ea1904528bace4d8747d4ae57abe5c, type: 3}
+    - {fileID: 4183598350207866171, guid: 6898c50d06daffe4e8477c919958183e, type: 3}
     MinEnemiesPerSpawn: 1
     MaxEnemiesPerSpawn: 5
     DelayBetweenSpawnsMin: 0.2
