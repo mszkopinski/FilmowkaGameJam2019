@@ -9,16 +9,20 @@ namespace WSGJ
 	{
 		[SerializeField, Header("UI SETTINGS")]
 		Image nextBlockImage;
+		[SerializeField]
+		Image healthBarFill;
 
 		protected override void Awake()
 		{
 			base.Awake();
 			BlocksSpawner.BlockToSpawnChanged += OnNextBlockToSpawnChanged;
+			TruckController.HealthChanged += OnHealthChanged;
 		}
 
 		void OnDestroy()
 		{
 			BlocksSpawner.BlockToSpawnChanged -= OnNextBlockToSpawnChanged;
+			TruckController.HealthChanged -= OnHealthChanged;
 		}
 		
 		void OnNextBlockToSpawnChanged(FallingBlock nextBlock)
@@ -31,6 +35,11 @@ namespace WSGJ
 				nextBlockImage.sprite = nextBlock.BlockSprite;
 				t.DOScale(1f, transitionTime);
 			});
+		}
+		
+		void OnHealthChanged(float newHealthValue, float maxValue)
+		{
+			healthBarFill.fillAmount = newHealthValue / maxValue;
 		}
 	}
 }

@@ -91,7 +91,8 @@ namespace WSGJ
 			bool isRightPressed = Input.GetKeyDown(KeyCode.RightArrow);
 			bool isLeftPressed = Input.GetKeyDown(KeyCode.LeftArrow);
 
-			if(canMoveBlock && (isRightPressed || isLeftPressed))
+			if(canMoveBlock && (isRightPressed || isLeftPressed) 
+			                && currentVelocity != boostedVelocity)
 			{
 				var targetPosX = transform.position.x 
 				                 + (isRightPressed ? horizontalStepSize : -horizontalStepSize);
@@ -148,7 +149,7 @@ namespace WSGJ
 				if((truckController = col.GetComponentInParent<TruckController>()) != null)
 				{
 					OnBlockPlaced(truckController);
-					truckController.OnBlockDropped(this);
+					truckController.OnBlockAttached(this);
 				}			
 			}
 		}
@@ -162,6 +163,7 @@ namespace WSGJ
 					Destroyed?.Invoke();
 					var explosion = Instantiate(explosionParticles);
 					explosion.transform.position = transform.position;
+					CameraController.Instance.ShakeCamera(1.2f);
 					Destroy(gameObject);
 				});
 		}

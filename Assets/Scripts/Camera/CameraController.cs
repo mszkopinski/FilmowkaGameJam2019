@@ -28,11 +28,11 @@ namespace WSGJ
 				ShakeCamera();				
 			}
 		}
-		
-		public void ShakeCamera()
+
+		public void ShakeCamera(float strengthFactor = 1f)
 		{
 			MainCamera.DOShakePosition(cameraShakeDuration, 
-				cameraShakeStrenght, 
+				cameraShakeStrenght * strengthFactor, 
 				cameraShakeVibrato, 
 				cameraShakeRandomness, 
 				cameraShakeFadeOut);
