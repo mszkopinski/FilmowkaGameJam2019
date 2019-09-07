@@ -1,5 +1,65 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &1879346874
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1879346875}
+  m_Layer: 0
+  m_Name: SpawnPoint_0 (1)
+  m_TagString: Untagged
+  m_Icon: {fileID: 7174288486110832750, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1879346875
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1879346874}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 20.12, y: -3.41, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4737971740549211274}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &2141027845
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2141027846}
+  m_Layer: 0
+  m_Name: SpawnPoint_0
+  m_TagString: Untagged
+  m_Icon: {fileID: 7174288486110832750, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2141027846
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2141027845}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -20.61, y: -3.41, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4737971740549211274}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &4737971740549211275
 GameObject:
   m_ObjectHideFlags: 0
@@ -10,6 +70,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4737971740549211274}
   - component: {fileID: 4737971740549211273}
+  - component: {fileID: 1023924494}
   m_Layer: 0
   m_Name: '[GameManager]'
   m_TagString: Untagged
@@ -27,7 +88,9 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
+  m_Children:
+  - {fileID: 2141027846}
+  - {fileID: 1879346875}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -47,11 +110,36 @@ MonoBehaviour:
   spawnerData:
     DelayBetweenSpawns: 1.5
     BlockPrefabs:
-    - {fileID: 9078906356873047121, guid: 67c89a906301d1c4a9e253ea1696178d, type: 3}
-    - {fileID: 8627335626386112238, guid: 547c3a56fbe048749960eafd0ac37794, type: 3}
+    - {fileID: 9078906356873047121, guid: 23280f24852507c40a2eddc7ee950a86, type: 3}
+    - {fileID: 8627335626386112238, guid: 2dfa4f51d819167449972a28fa8233f6, type: 3}
     - {fileID: 6174769258977060819, guid: f8a5cb17ab467844eb6343caa726b3af, type: 3}
     - {fileID: 8141523673707907691, guid: e87c73a729145684291fbda4184fa7ce, type: 3}
     - {fileID: 1779920090183787993, guid: afe199c0d39385d49854811a63012bde, type: 3}
     ChanceToSpawnAttachment: 0.5
     BlockAttachments:
     - {fileID: 5613150730789546583, guid: 32f14409936c6a6469ace6a17704fe21, type: 3}
+--- !u!114 &1023924494
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4737971740549211275}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5c15b72cdc364eee95b77aafe2158a02, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  persistBetweenScenes: 1
+  data:
+    SpawnPoints:
+    - {fileID: 2141027846}
+    - {fileID: 1879346875}
+    EnemiesPrefabs:
+    - {fileID: 1341447931441949376, guid: a3ea1904528bace4d8747d4ae57abe5c, type: 3}
+    MinEnemiesPerSpawn: 1
+    MaxEnemiesPerSpawn: 5
+    DelayBetweenSpawnsMin: 0.2
+    DelayBetweenSpawnsMax: 0.45
+    DelayBetweenSpawnBatchMin: 2
+    DelayBetweenSpawnBatchMax: 5

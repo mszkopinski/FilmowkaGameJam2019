@@ -10,12 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1a64e5b0e436d4bed9780211ae245f7b, type: 3}
-  m_Name: NewProject_Data
+  m_Name: Pesant_Data
   m_EditorClassIdentifier: 
-  dataName: NewProject
-  dragonBonesJSON: {fileID: 4900000, guid: ba799dc16f78d1344b79350a22ae5d0f, type: 3}
+  dataName: Pesant
+  dragonBonesJSON: {fileID: 4900000, guid: e22f5be9e7ca03b499018dc439f28294, type: 3}
   textureAtlas:
-  - textureAtlasJSON: {fileID: 4900000, guid: 46599b762c3c46240b1c99ba9bcc9686, type: 3}
-    texture: {fileID: 2800000, guid: 588c0e190d62c004c812fcca39c4216b, type: 3}
-    material: {fileID: 2100000, guid: d490d999b70b23d43b8b4d4198e62b41, type: 2}
+  - textureAtlasJSON: {fileID: 4900000, guid: 9883b5bc90157bc4892adc4af7de0368, type: 3}
+    texture: {fileID: 2800000, guid: b3bfb75b96d39cd4abe53d230fcfe1dd, type: 3}
+    material: {fileID: 2100000, guid: e2a08ed659bab2647bdf6ab6e1f8e869, type: 2}
     uiMaterial: {fileID: 0}

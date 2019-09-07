@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,8 +8,27 @@ namespace WSGJ
 {
 	public class TruckController : MonoBehaviour
 	{
+		public static event Action<float, float> HealthChanged;
+
+		public float CurrentHealth
+		{
+			get
+			{
+				return currentHealth;
+			}
+			private set
+			{
+				if(value == currentHealth) return;
+				currentHealth = value;
+				OnHealthChanged(currentHealth, startHealth);
+			}
+		}
+
 		[SerializeField, Header("Truck Settings")]
 		List<Transform> pathNodes;
+
+		[SerializeField]
+		float startHealth = 100f;
 
 		[SerializeField]
 		float movementVelocity = 2f;
@@ -18,6 +38,8 @@ namespace WSGJ
 		Rigidbody2D rigidBody;
 		Transform currentTargetNode;
 		Animator animator;
+		float currentHealth;
+		int attachedBlocksCounter = 0;
 		
 		readonly int wheatDroppedAnimHash = Animator.StringToHash("isWheatDropped");
 
@@ -30,13 +52,14 @@ namespace WSGJ
 		void Start()
 		{
 			currentTargetNode = pathNodes.GetRandomElement();
+			CurrentHealth = startHealth;
 		}
 
 		void Update()
 		{
 			if(Input.GetKeyDown(KeyCode.K))
 			{
-				OnBlockDropped(null);
+				OnBlockAttached(null);
 			}
 			
 			if((UnityEngine.Object)currentTargetNode == null)
@@ -65,9 +88,20 @@ namespace WSGJ
 			}
 		}
 		
-		public void OnBlockDropped(FallingBlock fallingBlock)
+		public void OnBlockAttached(FallingBlock fallingBlock)
 		{
 			animator.SetTrigger(wheatDroppedAnimHash);
+			++attachedBlocksCounter;
+		}
+
+		public void OnDamageTaken(float dmgValue)
+		{
+			CurrentHealth -= dmgValue;
+		}
+
+		protected virtual void OnHealthChanged(float newAmount, float maxAmount)
+		{
+			HealthChanged?.Invoke(newAmount, maxAmount);
 		}
 	}
 }

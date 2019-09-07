@@ -33,6 +33,9 @@ namespace WSGJ.Utils
 
 		public static T GetRandomElement<T>(this T[] arr)
 		{
+			if(arr == null || arr.Length == 0)
+				return default;
+			
 			return arr[Random.Range(0, arr.Length)];
 		}
 		
