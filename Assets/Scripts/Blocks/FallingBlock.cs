@@ -60,12 +60,14 @@ namespace WSGJ
 		Rigidbody2D rb;
 		float currentVelocity;
 		const float transitionTime = .25f;
+		AudioSource thisAudioSource;
 		
 		void Awake()
 		{
 			OnSpawned(this);
 			spriteRenderer = GetComponentInChildren<SpriteRenderer>(true);
 			rb = GetComponent<Rigidbody2D>();
+			thisAudioSource = GetComponent<AudioSource>();
 		}
 
 		void Start()
@@ -123,11 +125,15 @@ namespace WSGJ
 		{
 			if(col.HasCollidedWithGround())
 			{
+				SoundManager.Instance.PlayBlockHitsGround();
 				OnBlockDestroyed();	
+
 			}
 
 			if(col.HasCollidedWithBlock())
 			{
+				thisAudioSource.clip = SoundManager.Instance.BlockHitsOtherBlock;
+				thisAudioSource.PlayOneShot(SoundManager.Instance.BlockHitsOtherBlock);
 				var otherBlock = col.collider.GetComponentInParent<FallingBlock>();
 				if(otherBlock != null && otherBlock.IsAttachedToTruck)
 				{
@@ -145,6 +151,8 @@ namespace WSGJ
 		{
 			if(col.HasCollidedWithTruck() && !IsAttachedToTruck)
 			{
+				thisAudioSource.clip = SoundManager.Instance.BlockHitsTheCart;
+				thisAudioSource.PlayOneShot(SoundManager.Instance.BlockHitsTheCart);
 				TruckController truckController = null;
 				if((truckController = col.GetComponentInParent<TruckController>()) != null)
 				{
@@ -156,6 +164,7 @@ namespace WSGJ
 
 		void OnBlockDestroyed()
 		{
+			
 			transform.DOScale(Vector3.zero, .15f)
 				.SetEase(Ease.InOutBounce)
 				.OnComplete(() =>
