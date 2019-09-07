@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using WSGJ.Utils;
+using Random = System.Random;
 
 namespace WSGJ
 {
@@ -10,11 +11,14 @@ namespace WSGJ
 	{
 		public static event Action<FallingBlock> BlockToSpawnChanged; 
 		
-	    [System.Serializable]
+	    [Serializable]
 	    class BlockSpawnerData
 	    {
 		    public float DelayBetweenSpawns = 1.5f;
 		    public GameObject[] BlockPrefabs = null;
+		    
+		    public float ChanceToSpawnAttachment = 0.5f;
+		    public GameObject[] BlockAttachments;
 	    }
 	    
 	    [SerializeField, Header("Spawner Settings")]
@@ -102,6 +106,12 @@ namespace WSGJ
 							Vector3.zero, 
 							Quaternion.identity, null)
 						.GetComponent<FallingBlock>();
+
+					if(UnityEngine.Random.Range(0f, 1f) > spawnerData.ChanceToSpawnAttachment)
+					{
+						var spawnedAttachement = Instantiate(spawnerData.BlockAttachments.GetRandomElement());
+						spawnedBlock.AttachUpgrade(spawnedAttachement);
+					}
 					
 					var targetPos = GetRandomTopPosition();
 					targetPos.y += spawnedBlock.SpriteBounds.y / 2f;

@@ -49,7 +49,11 @@ namespace WSGJ
 		float boostedVelocity = 5f;
 		[SerializeField]
 		float horizontalStepSize = 1.5f;
-
+		[SerializeField]
+		Transform attachmentSlot;
+		[SerializeField]
+		GameObject explosionParticles;
+		
 		bool canRotateBlock = true;
 		bool canMoveBlock = true;
 		SpriteRenderer spriteRenderer;
@@ -156,6 +160,8 @@ namespace WSGJ
 				.OnComplete(() =>
 				{
 					Destroyed?.Invoke();
+					var explosion = Instantiate(explosionParticles);
+					explosion.transform.position = transform.position;
 					Destroy(gameObject);
 				});
 		}
@@ -163,6 +169,16 @@ namespace WSGJ
 		public void SetSpeedUpActive(bool isActive)
 		{
 			currentVelocity = isActive ? boostedVelocity : defaultVelocity;
+		}
+
+		public void AttachUpgrade(GameObject attachment)
+		{
+			if(attachment == null || attachmentSlot == null)
+				return;
+			
+			var attachmentTransform = attachment.transform;
+			attachmentTransform.SetParent(attachmentSlot);
+			attachmentTransform.localPosition = Vector3.zero;
 		}
 
 		protected virtual void OnSpawned(FallingBlock @this)

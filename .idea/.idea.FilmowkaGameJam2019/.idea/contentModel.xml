@@ -13,8 +13,6 @@
             </e>
           </e>
         </e>
-        <e p="CatapultRock.cs" t="Include" />
-        <e p="CatapultShooting.cs" t="Include" />
         <e p="EnemyController.cs" t="Include" />
         <e p="GFX" t="Include">
           <e p="Shaders" t="Include">
@@ -61,7 +59,10 @@
         <e p="Scripts" t="Include">
           <e p="Blocks" t="Include">
             <e p="BlocksSpawner.cs" t="Include" />
+            <e p="CatapultRock.cs" t="Include" />
+            <e p="CatapultShooting.cs" t="Include" />
             <e p="FallingBlock.cs" t="Include" />
+            <e p="IBlockAttachment.cs" t="Include" />
           </e>
           <e p="Camera" t="Include">
             <e p="CameraController.cs" t="Include" />
