@@ -25,9 +25,9 @@ namespace WSGJ
 		}
 		
 		[SerializeField, Header("Block Settings")]
-		float defaultStepTime = .5f;
+		float defaultVelocity = 2f;
 		[SerializeField]
-		float boostedStepTime = .1f;
+		float boostedVelocity = 5f;
 		[SerializeField]
 		float verticalStepSize = 1.5f;
 		[SerializeField]
@@ -36,8 +36,8 @@ namespace WSGJ
 		bool canRotateBlock = true;
 		bool canMoveBlock = true;
 		SpriteRenderer spriteRenderer;
-		float currentStepTime;
 		Rigidbody2D rb;
+		float currentVelocity;
 		
 		void Awake()
 		{
@@ -48,37 +48,35 @@ namespace WSGJ
 
 		void Start()
 		{
-			StartCoroutine(FallCoroutine());
-
-			currentStepTime = defaultStepTime;
+			currentVelocity = defaultVelocity;
 		}
 
 		void Update()
 		{
-			HandleInput();
+			HandleMovement();
+			HandleRotation();
 		}
 
 		public void SetSpeedUpActive(bool isActive)
 		{
-			currentStepTime = isActive ? boostedStepTime : defaultStepTime;
+			currentVelocity = isActive ? boostedVelocity : defaultVelocity;
 		}
-		
-		void HandleInput()
-		{
-			if(Input.GetKeyDown(KeyCode.R))
-			{
-				RotateBlock();
-			}
 
+		void HandleMovement()
+		{
+			var targetPosition = transform.position;
+			targetPosition.y -= currentVelocity * Time.deltaTime;
+			rb.MovePosition(targetPosition);
+			
 			if(canMoveBlock)
 			{
 				const float transitionTime = .25f;
 				
 				if(Input.GetKeyDown(KeyCode.RightArrow))
 				{
-					var targetPosition = transform.position;
-					targetPosition.x += horizontalStepSize;
-					rb.DOMove(targetPosition, transitionTime)
+					var targetPos = transform.position;
+					targetPos.x += horizontalStepSize;
+					rb.DOMove(targetPos, transitionTime)
 						.SetEase(Ease.InOutCubic)
 						.OnStart(() => { canMoveBlock = false; })
 						.OnComplete(() =>
@@ -89,9 +87,9 @@ namespace WSGJ
 			
 				if(Input.GetKeyDown(KeyCode.LeftArrow))
 				{
-					var targetPosition = transform.position;
-					targetPosition.x -= horizontalStepSize;
-					rb.DOMove(targetPosition, transitionTime)
+					var targetPos = transform.position;
+					targetPos.x -= horizontalStepSize;
+					rb.DOMove(targetPos, transitionTime)
 						.SetEase(Ease.InOutCubic)
 						.OnStart(() => { canMoveBlock = false; })
 						.OnComplete(() =>
@@ -99,6 +97,14 @@ namespace WSGJ
 							canMoveBlock = true;
 						});	
 				}
+			}
+		}
+		
+		void HandleRotation()
+		{
+			if(Input.GetKeyDown(KeyCode.R))
+			{
+				RotateBlock();
 			}
 		}
 
@@ -115,31 +121,20 @@ namespace WSGJ
 			}).OnComplete(() => { canRotateBlock = true; });
 		}
 		
-		IEnumerator FallCoroutine()
+		void OnCollisionEnter2D(Collision2D collision2D)
 		{
-			while(true)
-			{
-				yield return new WaitForSeconds(currentStepTime);
-				var targetPosition = transform.position;
-				targetPosition.y -= verticalStepSize;
-				rb.DOMove(targetPosition, .25f).SetEase(Ease.InOutCubic);
-			}
-		}
-
-		void OnCollisionEnter2D(Collision2D col)
-		{
-			var collider = col.collider;
+			var col = collision2D.collider;
 			
-			if(col.HasCollidedWithGround())
+			if(collision2D.HasCollidedWithGround())
 			{
 				OnBlockDestroyed();
 			}
-			else if(col.HasCollidedWithTruck())
+			else if(collision2D.HasCollidedWithTruck())
 			{
 				OnBlockPlaced();
 				
 				TruckController truckController = null;
-				if((truckController = collider.GetComponentInParent<TruckController>()) != null)
+				if((truckController = col.GetComponentInParent<TruckController>()) != null)
 				{
 					Debug.Log("jazda");
 					StopAllCoroutines();
