@@ -21,7 +21,7 @@ public class CatapultRock : MonoBehaviour
 
        private void Shot()
     {
-        transform.Translate(Vector3.right * speed * Time.deltaTime);
+        transform.Translate(Vector3.right * speed * Time.deltaTime, Space.World);
 
         if (transform.position.y >= 5.4f)
         {
