@@ -20,6 +20,7 @@ namespace WSGJ
 		bool cameraShakeFadeOut = false;
 		
 		public Camera MainCamera { get; private set; }
+        public Rect Rectangle => MainCamera.rect;
 		PostProcessVolume ppVolume;
 		
 		protected override void Awake()

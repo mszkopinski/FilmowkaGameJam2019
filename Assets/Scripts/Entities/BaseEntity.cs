@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using DragonBones;
 using UnityEngine;
 using Transform = UnityEngine.Transform;
@@ -9,11 +10,18 @@ namespace WSGJ
 	{
 		[SerializeField, Header("Entity Settings")]
 		float movementSpeed;
+		[SerializeField]
+		float attackDamage = 10f;
+		[SerializeField]
+		float delayBetweenAttacks = 2f;
 
 		Transform currentTarget;
+		TruckController truckController;
 		protected UnityArmatureComponent ArmatureComponent;
 		protected bool CanMove = true;
 		protected bool IsDead = false;
+
+		IEnumerator attackCoroutine;
 
 		void Awake()
 		{
@@ -23,7 +31,7 @@ namespace WSGJ
 
 		void Update()
 		{
-			if(CanMove == false)
+			if(CanMove == false || IsDead)
 				return;
 			
 			if((UnityEngine.Object)currentTarget == null)
@@ -37,6 +45,8 @@ namespace WSGJ
 			transform.localScale = newScale;
 
 			bool isInAttackRange = distance < 25f;
+			
+			SetAttackState(isInAttackRange);
 
 			if(!isInAttackRange)
 			{
@@ -47,18 +57,48 @@ namespace WSGJ
 					ArmatureComponent.animation.Play("move", -1);
 				}
 			}
-			else
-			{
-				if(ArmatureComponent.animationName != "atack")
-				{
-					ArmatureComponent.animation.Play("atack", 1);
-				}
-			}
 		}
 
 		protected virtual void SetTarget(Transform target)
 		{
 			currentTarget = target;
+			truckController = currentTarget.GetComponent<TruckController>();
+		}
+
+		void SetAttackState(bool isAttacking)
+		{
+			if(isAttacking && attackCoroutine == null)
+			{
+				attackCoroutine = AttackWithDelay();
+				StartCoroutine(attackCoroutine);
+			}
+
+			if(!isAttacking && attackCoroutine != null)
+			{
+				StopCoroutine(attackCoroutine);
+				attackCoroutine = null;
+				
+				if(ArmatureComponent.animationName != "move")
+				{
+					ArmatureComponent.animation.Play("move", -1);
+				}
+			}
+		}
+
+		IEnumerator AttackWithDelay()
+		{
+			while(true)
+			{
+				yield return new WaitForSeconds(delayBetweenAttacks);
+				truckController.OnDamageTaken(attackDamage);
+				ArmatureComponent.animation.Play("atack", 1);
+			}
+		}
+
+		void OnTriggerEnter2D(Collider2D other)
+		{
+			if(other.CompareTag("Weapon") == false) return;
+			OnEntityDied();
 		}
 
 		public virtual void OnEntityDied()
