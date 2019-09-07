@@ -44,7 +44,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 83a206a391c1460eaa255e1e44c4a5ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  destructionRange: 9
+  destructionRange: 4
 --- !u!58 &361110584
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -60,7 +60,7 @@ CircleCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
-  m_Radius: 5
+  m_Radius: 4
 --- !u!1 &472325355
 GameObject:
   m_ObjectHideFlags: 0
@@ -10011,7 +10011,7 @@ MonoBehaviour:
   pathNodes:
   - {fileID: 0}
   - {fileID: 0}
-  startHealth: 100
+  startHealth: 15000
   movementVelocity: 6
   wheelTransforms:
   - {fileID: 1545905849}
