@@ -100,10 +100,13 @@ namespace WSGJ
 		
 		void HandleRotation()
 		{
-			if(Input.GetKeyDown(KeyCode.R) && canRotateBlock)
+			bool isRotatingRight = Input.GetKeyDown(KeyCode.UpArrow);
+			bool isRotatingLeft = Input.GetKeyDown(KeyCode.DownArrow);
+			
+			if(canRotateBlock && (isRotatingLeft || isRotatingRight))
 			{
 				var targetRotation = transform.localRotation.eulerAngles;
-				targetRotation.z -= 90f;
+				targetRotation.z = targetRotation.z + (isRotatingLeft ? 90f : -90f);
 				transform.DOLocalRotate(targetRotation, RotateTransitionTime)
 					.OnStart(() => { canRotateBlock = false; })
 					.OnComplete(() => { canRotateBlock = true; });
