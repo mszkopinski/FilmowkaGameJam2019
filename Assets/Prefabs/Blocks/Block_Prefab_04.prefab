@@ -159,6 +159,7 @@ MonoBehaviour:
   attachmentSlot: {fileID: 8990492792802240795}
   explosionParticles: {fileID: 1600537156039379937, guid: 638c757b642adb74dbfa5735982a6ea8,
     type: 3}
+  darkestColorValue: {r: 1, g: 0.45490196, b: 0.29803923, a: 1}
 --- !u!50 &392564344426496387
 Rigidbody2D:
   serializedVersion: 4

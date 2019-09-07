@@ -185,6 +185,7 @@
           <e p="SpaceInvanderEntity.cs" t="Include" />
           <e p="Truck" t="Include">
             <e p="TruckController.cs" t="Include" />
+            <e p="TruckLethalRange.cs" t="Include" />
           </e>
           <e p="Utils" t="Include">
             <e p="CommonEnum.cs" t="Include" />
@@ -193,6 +194,7 @@
             <e p="ParticlesAutoDestroyer.cs" t="Include" />
           </e>
         </e>
+        <e p="SoundManager.cs" t="Include" />
         <e p="TextMesh Pro" t="Include">
           <e p="Fonts" t="Include">
             <e p="LiberationSans - OFL.txt" t="Include" />

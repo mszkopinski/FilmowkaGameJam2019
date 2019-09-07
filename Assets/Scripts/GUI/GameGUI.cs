@@ -25,14 +25,15 @@ namespace WSGJ
 			TruckController.HealthChanged -= OnHealthChanged;
 		}
 		
-		void OnNextBlockToSpawnChanged(FallingBlock nextBlock)
+		void OnNextBlockToSpawnChanged(BlocksSpawner.FallingBlockWrapper nextBlock)
 		{
 			const float transitionTime = .25f;
 			var t = nextBlockImage.transform;
 
 			t.DOScale(0f, transitionTime).OnComplete(() =>
 			{
-				nextBlockImage.sprite = nextBlock.BlockSprite;
+				nextBlockImage.sprite = nextBlock.Block.BlockSprite;
+				nextBlockImage.color = nextBlock.RandomTint;
 				t.DOScale(1f, transitionTime);
 			});
 		}

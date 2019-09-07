@@ -3,13 +3,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using WSGJ.Utils;
-using Random = System.Random;
 
 namespace WSGJ
 {
 	public class BlocksSpawner : MonoSingleton<BlocksSpawner>
 	{
-		public static event Action<FallingBlock> BlockToSpawnChanged; 
+		public static event Action<FallingBlockWrapper> BlockToSpawnChanged; 
 		
 	    [Serializable]
 	    class BlockSpawnerData
@@ -20,16 +19,24 @@ namespace WSGJ
 		    public float ChanceToSpawnAttachment = 0.5f;
 		    public GameObject[] BlockAttachments;
 	    }
+
+	    public struct FallingBlockWrapper
+	    {
+		    public FallingBlock Block;
+		    public Color RandomTint;
+	    }
 	    
 	    [SerializeField, Header("Spawner Settings")]
 	    BlockSpawnerData spawnerData;
+	    [SerializeField]
+	    Color darkestTintValue;
 
 		readonly List<FallingBlock> spawnedBlocks = new List<FallingBlock>();
 		IEnumerator blocksSpawningCoroutine;
 		WaitForSeconds waitForSeconds;
 		FallingBlock currentFallingBlock;
 
-		public FallingBlock NextBlockToSpawn
+		public FallingBlockWrapper NextBlockToSpawn
 		{
 			get
 			{
@@ -37,13 +44,12 @@ namespace WSGJ
 			}
 			private set
 			{
-				if(value == nextBlockToSpawn) return;
 				nextBlockToSpawn = value;
 				OnBlockToSpawnChanged(nextBlockToSpawn);
 			}
 		}
 
-		FallingBlock nextBlockToSpawn;
+		FallingBlockWrapper nextBlockToSpawn;
 
 		protected override void Awake()
 		{
@@ -78,8 +84,12 @@ namespace WSGJ
 			if(blocksSpawningCoroutine != null)
 				return;
 
-			NextBlockToSpawn = spawnerData.BlockPrefabs.GetRandomElement()
-				.GetComponent<FallingBlock>();
+			NextBlockToSpawn = new FallingBlockWrapper
+			{
+				Block = spawnerData.BlockPrefabs.GetRandomElement()
+					.GetComponent<FallingBlock>(),
+				RandomTint = GetRandomTintColor()
+			};
 			
 			blocksSpawningCoroutine = BlocksSpawningCoroutine();
 			StartCoroutine(blocksSpawningCoroutine);
@@ -103,11 +113,11 @@ namespace WSGJ
 				if(shouldSpawnNextBlock)
 				{
 					var spawnedBlock = Instantiate(
-							NextBlockToSpawn,  
+							NextBlockToSpawn.Block,  
 							Vector3.zero, 
 							Quaternion.identity, null)
 						.GetComponent<FallingBlock>();
-
+					
 					if(UnityEngine.Random.Range(0f, 1f) > spawnerData.ChanceToSpawnAttachment)
 					{
 						var spawnedAttachement = Instantiate(spawnerData.BlockAttachments.GetRandomElement());
@@ -117,10 +127,16 @@ namespace WSGJ
 					var targetPos = CameraController.Instance.GetScreenTopPosition();
 					targetPos.y += spawnedBlock.SpriteBounds.y / 2f;
 					spawnedBlock.transform.position = targetPos;
+					
+					spawnedBlock.SetSpriteTint(nextBlockToSpawn.RandomTint);
 				
 					shouldSpawnNextBlock = false;
-					NextBlockToSpawn = spawnerData.BlockPrefabs.GetRandomElement()
-						.GetComponent<FallingBlock>();
+					NextBlockToSpawn = new FallingBlockWrapper
+					{
+						Block = spawnerData.BlockPrefabs.GetRandomElement()
+							.GetComponent<FallingBlock>(),
+						RandomTint = GetRandomTintColor()
+					};
 
 					spawnedBlock.Placed += () =>
 					{
@@ -156,8 +172,15 @@ namespace WSGJ
 			
 			shouldSpawnNextBlock = true;
 		}
+		
+		public Color GetRandomTintColor()
+		{
+			var tintColor = Color.Lerp(Color.white, darkestTintValue, UnityEngine.Random.Range(0f, 1f));
+			tintColor.a = 1f;
+			return tintColor;
+		}
 
-		protected virtual void OnBlockToSpawnChanged(FallingBlock nextBlock)
+		protected virtual void OnBlockToSpawnChanged(FallingBlockWrapper nextBlock)
 		{
 			BlockToSpawnChanged?.Invoke(nextBlock);
 		}

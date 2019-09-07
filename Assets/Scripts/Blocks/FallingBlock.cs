@@ -43,6 +43,7 @@ namespace WSGJ
 				return spriteRenderer.sprite;
 			}
 		}
+
 		
 		[SerializeField, Header("Block Settings")]
 		float defaultVelocity = 2f;
@@ -54,7 +55,7 @@ namespace WSGJ
 		Transform attachmentSlot;
 		[SerializeField]
 		GameObject explosionParticles;
-		
+	
 		bool canRotateBlock = true;
 		bool canMoveBlock = true;
 		SpriteRenderer spriteRenderer;
@@ -65,10 +66,12 @@ namespace WSGJ
 		
 		void Awake()
 		{
-			OnSpawned(this);
 			spriteRenderer = GetComponentInChildren<SpriteRenderer>(true);
+			
 			rb = GetComponent<Rigidbody2D>();
 			thisAudioSource = GetComponent<AudioSource>();
+			
+			OnSpawned(this);
 		}
 
 		void Start()
@@ -204,6 +207,11 @@ namespace WSGJ
 			var attachmentTransform = attachment.transform;
 			attachmentTransform.SetParent(attachmentSlot);
 			attachmentTransform.localPosition = Vector3.zero;
+		}
+
+		public void SetSpriteTint(Color tintColor)
+		{
+			spriteRenderer.color = tintColor;
 		}
 
 		protected virtual void OnSpawned(FallingBlock @this)
