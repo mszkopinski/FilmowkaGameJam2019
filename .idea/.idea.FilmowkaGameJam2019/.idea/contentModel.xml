@@ -177,6 +177,7 @@
           <e p="Entities" t="Include">
             <e p="BaseEntity.cs" t="Include" />
             <e p="PeasantEntity.cs" t="Include" />
+            <e p="PiggyEntity.cs" t="Include" />
           </e>
           <e p="EntitiesSpawner.cs" t="Include" />
           <e p="GUI" t="Include">

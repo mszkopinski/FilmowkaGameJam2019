@@ -1,7 +1,6 @@
 using System;
 using System.Collections;
 using DragonBones;
-using TMPro;
 using UnityEngine;
 using Transform = UnityEngine.Transform;
 
@@ -9,12 +8,18 @@ namespace WSGJ
 {
 	public abstract class BaseEntity : MonoBehaviour
 	{
+		public static event Action<BaseEntity> Died; 
+		
+		public float ScoreValue => scoreValue;
+		
 		[SerializeField, Header("Entity Settings")]
 		float movementSpeed;
 		[SerializeField]
 		float attackDamage = 10f;
 		[SerializeField]
 		float delayBetweenAttacks = 2f;
+		[SerializeField]
+		float scoreValue;
 
 		Transform currentTarget;
 		TruckController truckController;
@@ -112,6 +117,7 @@ namespace WSGJ
 		public virtual void OnEntityDied()
 		{
 			CanMove = false;
+			Died?.Invoke(this);
 		}
 	}
 }
