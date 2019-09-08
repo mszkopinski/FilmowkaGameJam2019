@@ -32,10 +32,11 @@ namespace WSGJ
 			BaseEntity.Died += OnEntityDied;
 			PiggyEntity.Died += OnPiggyDied;
 		}
-
+		
 		void Start()
 		{
 			RefreshScoreLabel(currentScore);
+			HowToPlayInActive();
 		}
 		
 		void OnDestroy()
