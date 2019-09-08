@@ -1,7 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
 using DG.Tweening;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -66,14 +64,15 @@ namespace WSGJ
 		float currentVelocity;
 		const float transitionTime = .25f;
 		AudioSource thisAudioSource;
+		ParticleSystem boostParticles;
 
-		
 		void Awake()
 		{
 			spriteRenderer = GetComponentInChildren<SpriteRenderer>(true);
 			
 			rb = GetComponent<Rigidbody2D>();
 			thisAudioSource = GetComponent<AudioSource>();
+			boostParticles = GetComponentInChildren<ParticleSystem>();
 			
 			OnSpawned(this);
 		}
@@ -81,15 +80,31 @@ namespace WSGJ
 		void Start()
 		{
 			currentVelocity = defaultVelocity;
+			boostParticles.Stop();
 		}
 
 		void Update()
 		{
-            
-            HandleAttachment();
+			HandleAttachment();
 
-            if (IsAttachedToTruck || !IsSelected)
+			if(IsSelected)
+			{
+				if(Input.GetKeyDown(KeyCode.Space))
+				{
+					boostParticles.Play();
+				}
+				
+				if(Input.GetKeyUp(KeyCode.Space))
+				{
+					boostParticles.Stop();
+				}
+			}
+
+			if(IsAttachedToTruck || !IsSelected)
+			{
+				boostParticles.Stop();
 				return;
+			}
 
 			HandleMovement();
 			HandleRotation();
@@ -250,9 +265,10 @@ namespace WSGJ
 		{
 			if(isActive == isSpeedUpActive)
 				return;
-
+			
 			isSpeedUpActive = isActive;
 			currentVelocity = isSpeedUpActive ? boostedVelocity : defaultVelocity;
+
 			// CameraController.Instance.PlaySpeedUpEffect(
 			// 	isSpeedUpActive ? -18f : 0f, 
 			// 	isSpeedUpActive ? 0.596f : 0.364f);
