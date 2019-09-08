@@ -12,6 +12,11 @@ namespace WSGJ
 		[SerializeField]
 		Image healthBarFill;
 
+		[SerializeField] Button HowToPlay;
+		
+		[SerializeField] Button Back;
+		public Canvas HowTo;
+
 		protected override void Awake()
 		{
 			base.Awake();
@@ -42,5 +47,17 @@ namespace WSGJ
 		{
 			healthBarFill.fillAmount = newHealthValue / maxValue;
 		}
+
+		public void HowToPlayActive()
+		{
+			HowTo.gameObject.SetActive(true);
+		}
+
+		public void HowToPlayInActive()
+		{
+			HowTo.gameObject.SetActive(false);
+		}
+
+
 	}
 }
