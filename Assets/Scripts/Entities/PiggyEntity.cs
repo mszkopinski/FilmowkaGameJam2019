@@ -2,18 +2,23 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using System.Linq;
+using System;
 
 
 namespace WSGJ
 {
     public class PiggyEntity : MonoBehaviour
     {
+        public static event Action<PiggyEntity> Died;
+
         [SerializeField]
         float velocity = 165f;
         [SerializeField]
         float minSpawnHeight = 0.5f;
         [SerializeField]
         float maxSpawnHeight = 2f;
+
+        public float ScoreValue;
 
         UnityArmatureComponent armatureComponent;
         Rigidbody2D rb2d;
@@ -32,7 +37,7 @@ namespace WSGJ
         void Start()
         {
             transform.position += new Vector3(0f, 
-                Random.Range(minSpawnHeight, maxSpawnHeight), 0f);
+                UnityEngine.Random.Range(minSpawnHeight, maxSpawnHeight), 0f);
             isLeftDirection = transform.position.x > 0;
         }
 
@@ -65,33 +70,27 @@ namespace WSGJ
             }       
         }
 
-        private void OnCollisionEnter2D(Collision2D other)
-        {
-            if (other.collider.CompareTag("Ground"))
-            {
-                var particles = GetComponentsInChildren<ParticleSystem>().ToList();
-
-                foreach (var particle in particles)
-                {
-                    particle.transform.parent = null;
-                    particle.Play();
-                }
-                
-                DestroyEntity();
-            }
-        }
 
         void OnEntityDied()
         {
             canMove = false;
             
             armatureComponent.animation.Play("die", 1);
-            //Invoke(nameof(DestroyEntity), .5f);
+
+            Invoke(nameof(DestroyEntity), 1f);
         }
         
         void DestroyEntity()
         {
-            
+            Died?.Invoke(this);
+            var particles = GetComponentsInChildren<ParticleSystem>().ToList();
+
+            foreach (var particle in particles)
+            {
+                particle.transform.parent = null;
+                particle.Play();
+            }
+
             Destroy(gameObject);			
         }
     }

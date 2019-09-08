@@ -122,6 +122,7 @@ MonoBehaviour:
     - {fileID: 5613150730789546583, guid: 32f14409936c6a6469ace6a17704fe21, type: 3}
     - {fileID: 2789093321483450383, guid: 4b13e08155ec5134c850d5f8fe30d96f, type: 3}
     - {fileID: 6401718453265964562, guid: be4b267bd51c369419a8701f0f6263f7, type: 3}
+  darkestTintValue: {r: 0.9528302, g: 0.5728218, b: 0.373042, a: 1}
 --- !u!114 &1023924494
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -141,7 +142,7 @@ MonoBehaviour:
     - {fileID: 1879346875}
     EnemiesPrefabs:
     - {fileID: 1341447931441949376, guid: a3ea1904528bace4d8747d4ae57abe5c, type: 3}
-    - {fileID: 4183598350207866171, guid: 6898c50d06daffe4e8477c919958183e, type: 3}
+    - {fileID: 7288852088468074968, guid: ff21e96c94027ec43b8e43028549b1b5, type: 3}
     MinEnemiesPerSpawn: 1
     MaxEnemiesPerSpawn: 5
     DelayBetweenSpawnsMin: 0.2
