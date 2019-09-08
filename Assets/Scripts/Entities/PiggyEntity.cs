@@ -1,5 +1,8 @@
 ﻿using DragonBones;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+using System.Linq;
+
 
 namespace WSGJ
 {
@@ -14,12 +17,15 @@ namespace WSGJ
 
         UnityArmatureComponent armatureComponent;
         Rigidbody2D rb2d;
+
+
         bool isLeftDirection;
         bool canMove = true;
 
         void Awake()
         {
-            armatureComponent = GetComponent<UnityArmatureComponent>();
+            armatureComponent = GetComponentInChildren<UnityArmatureComponent>();
+            
             rb2d = GetComponent<Rigidbody2D>();
         }
         
@@ -32,11 +38,15 @@ namespace WSGJ
 
         void FixedUpdate()
         {
-            if(canMove == false)
-                return;
-            
-            rb2d.velocity = Time.deltaTime * velocity * (isLeftDirection ? -1f : 1f) * Vector2.right;
-            transform.localScale = new Vector3(isLeftDirection ? 1f : -1f, 1f, 1f);       
+            if (canMove)
+            {
+                rb2d.velocity = Time.deltaTime * velocity * (isLeftDirection ? -1f : 1f) * Vector2.right;
+                transform.localScale = new Vector3(isLeftDirection ? 1f : -1f, 1f, 1f);
+            }
+            else
+            {
+
+            }
         }
 
         void Update()
@@ -47,8 +57,28 @@ namespace WSGJ
         
         void OnTriggerEnter2D(Collider2D other)
         {
-            if(other.CompareTag("Weapon") == false) return;
-            OnEntityDied();
+            if (other.CompareTag("Weapon") || canMove)
+            {
+                OnEntityDied();
+                rb2d.gravityScale = 1f;
+                rb2d.AddForce(Vector2.down * 10f);
+            }       
+        }
+
+        private void OnCollisionEnter2D(Collision2D other)
+        {
+            if (other.collider.CompareTag("Ground"))
+            {
+                var particles = GetComponentsInChildren<ParticleSystem>().ToList();
+
+                foreach (var particle in particles)
+                {
+                    particle.transform.parent = null;
+                    particle.Play();
+                }
+                
+                DestroyEntity();
+            }
         }
 
         void OnEntityDied()
@@ -56,11 +86,12 @@ namespace WSGJ
             canMove = false;
             
             armatureComponent.animation.Play("die", 1);
-            Invoke(nameof(DestroyEntity), .5f);
+            //Invoke(nameof(DestroyEntity), .5f);
         }
         
         void DestroyEntity()
         {
+            
             Destroy(gameObject);			
         }
     }
