@@ -1,4 +1,7 @@
 using System;
+using System.Collections.Generic;
+using System.Globalization;
+using System.Linq;
 using DG.Tweening;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -22,7 +25,7 @@ namespace WSGJ
 		
 		public TruckController AttachedTruck { get; private set; }
 
-		public Vector2 SpriteBounds
+		public Vector2 SpriteSize
 		{
 			get
 			{
@@ -136,23 +139,62 @@ namespace WSGJ
 				SoundManager.Instance.PlayBlockHitsGround();
 				OnBlockDestroyed();	
 			}
-
-			var contactPoint = col.GetContact(0);
-			Debug.Log($"contact point: {contactPoint.point.ToString()} bounds: {col.collider.bounds.max}");
-			// bool isAboveBlock = contactPoint.point.y ;
-
 			
 			if(col.HasCollidedWithBlock())
 			{
-				thisAudioSource.clip = SoundManager.Instance.BlockHitsOtherBlock;
-				thisAudioSource.PlayOneShot(SoundManager.Instance.BlockHitsOtherBlock);
-				var otherBlock = col.collider.GetComponentInParent<FallingBlock>();
-				if(otherBlock != null && otherBlock.IsAttachedToTruck)
+				OnCollisionWithOtherBlock(col);
+			}
+		}
+
+		const float raycastOffset = 0.1f;
+
+		void OnCollisionWithOtherBlock(Collision2D colInfo)
+		{
+			if(IsSelected == false)
+				return;
+			
+			bool hasBlockUnder = false;
+			
+			var bounds = colInfo.collider.bounds;
+
+			var leftMostPos = colInfo.collider.transform.TransformPoint((Vector2)bounds.center +
+			                                                         new Vector2(-bounds.size.x * .9f, -bounds.size.y) * 0.5f);
+			
+			var rightMostPos = colInfo.collider.transform.TransformPoint((Vector2)bounds.center +
+			                                                            new Vector2(bounds.size.x * .9f, -bounds.size.y) * 0.5f);
+			var centerPos = transform.position;
+			
+			var positionsToCheck = new List<Vector2>
+			{
+				leftMostPos, rightMostPos, centerPos
+			};
+
+			foreach(var posToCheck in positionsToCheck)
+			{
+				if(Physics2D.Raycast(posToCheck, -Vector2.up, .05f,
+					LayerMask.GetMask("Blocks")))
 				{
-					var truckController = otherBlock.AttachedTruck;
-					OnBlockPlaced(truckController);
-					truckController.OnBlockAttached(this);
+					hasBlockUnder = true;
+					break;
 				}
+			}
+			
+			if(!hasBlockUnder)
+			{
+				Debug.Log("THIS BLOCK SHOULDNT HAVE ATTACHED.");
+				OnBlockDestroyed();
+				return;
+			}
+			
+			thisAudioSource.clip = SoundManager.Instance.BlockHitsOtherBlock;
+			thisAudioSource.PlayOneShot(SoundManager.Instance.BlockHitsOtherBlock);
+			
+			var otherBlock = colInfo.collider.GetComponentInParent<FallingBlock>();
+			if(otherBlock != null && otherBlock.IsAttachedToTruck)
+			{
+				var truckController = otherBlock.AttachedTruck;
+				OnBlockPlaced(truckController);
+				truckController.OnBlockAttached(this);
 			}
 		}
 

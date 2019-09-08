@@ -125,7 +125,7 @@ namespace WSGJ
 					}
 					
 					var targetPos = CameraController.Instance.GetScreenTopPosition();
-					targetPos.y += spawnedBlock.SpriteBounds.y / 2f;
+					targetPos.y += spawnedBlock.SpriteSize.y / 2f;
 					spawnedBlock.transform.position = targetPos;
 					
 					spawnedBlock.SetSpriteTint(nextBlockToSpawn.RandomTint);
