@@ -70,6 +70,10 @@ namespace WSGJ
             }       
         }
 
+        private void OnCollisionEnter2D(Collision2D collision)
+        {
+            if (collision.collider.CompareTag("FallingBlock")) OnEntityDied();    
+        }
 
         void OnEntityDied()
         {
