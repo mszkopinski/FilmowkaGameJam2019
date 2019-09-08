@@ -1,7 +1,9 @@
-﻿using System;
-using DragonBones;
+﻿using DragonBones;
 using UnityEngine;
-using Random = UnityEngine.Random;
+using UnityEngine.SceneManagement;
+using System.Linq;
+using System;
+
 
 namespace WSGJ
 {
@@ -9,42 +11,47 @@ namespace WSGJ
     {
         public static event Action<PiggyEntity> Died;
 
-        public float ScoreValue => scoreValue;
-        
         [SerializeField]
         float velocity = 165f;
         [SerializeField]
         float minSpawnHeight = 0.5f;
         [SerializeField]
         float maxSpawnHeight = 2f;
-        [SerializeField]
-        float scoreValue;
+
+        public float ScoreValue;
 
         UnityArmatureComponent armatureComponent;
         Rigidbody2D rb2d;
+
+
         bool isLeftDirection;
         bool canMove = true;
 
         void Awake()
         {
-            armatureComponent = GetComponent<UnityArmatureComponent>();
+            armatureComponent = GetComponentInChildren<UnityArmatureComponent>();
+            
             rb2d = GetComponent<Rigidbody2D>();
         }
         
         void Start()
         {
             transform.position += new Vector3(0f, 
-                Random.Range(minSpawnHeight, maxSpawnHeight), 0f);
+                UnityEngine.Random.Range(minSpawnHeight, maxSpawnHeight), 0f);
             isLeftDirection = transform.position.x > 0;
         }
 
         void FixedUpdate()
         {
-            if(canMove == false)
-                return;
-            
-            rb2d.velocity = Time.deltaTime * velocity * (isLeftDirection ? -1f : 1f) * Vector2.right;
-            transform.localScale = new Vector3(isLeftDirection ? 1f : -1f, 1f, 1f);       
+            if (canMove)
+            {
+                rb2d.velocity = Time.deltaTime * velocity * (isLeftDirection ? -1f : 1f) * Vector2.right;
+                transform.localScale = new Vector3(isLeftDirection ? 1f : -1f, 1f, 1f);
+            }
+            else
+            {
+
+            }
         }
 
         void Update()
@@ -55,8 +62,17 @@ namespace WSGJ
         
         void OnTriggerEnter2D(Collider2D other)
         {
-            if(other.CompareTag("Weapon") == false) return;
-            OnEntityDied();
+            if (other.CompareTag("Weapon") || canMove)
+            {
+                OnEntityDied();
+                rb2d.gravityScale = 1f;
+                rb2d.AddForce(Vector2.down * 10f);
+            }       
+        }
+
+        private void OnCollisionEnter2D(Collision2D collision)
+        {
+            if (collision.collider.CompareTag("FallingBlock")) OnEntityDied();    
         }
 
         void OnEntityDied()
@@ -64,12 +80,21 @@ namespace WSGJ
             canMove = false;
             
             armatureComponent.animation.Play("die", 1);
-            Invoke(nameof(DestroyEntity), .5f);
-            Died?.Invoke(this);
+
+            Invoke(nameof(DestroyEntity), 1f);
         }
         
         void DestroyEntity()
         {
+            Died?.Invoke(this);
+            var particles = GetComponentsInChildren<ParticleSystem>().ToList();
+
+            foreach (var particle in particles)
+            {
+                particle.transform.parent = null;
+                particle.Play();
+            }
+
             Destroy(gameObject);			
         }
     }
