@@ -1,16 +1,24 @@
-﻿using DragonBones;
+﻿using System;
+using DragonBones;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace WSGJ
 {
     public class PiggyEntity : MonoBehaviour
     {
+        public static event Action<PiggyEntity> Died;
+
+        public float ScoreValue => scoreValue;
+        
         [SerializeField]
         float velocity = 165f;
         [SerializeField]
         float minSpawnHeight = 0.5f;
         [SerializeField]
         float maxSpawnHeight = 2f;
+        [SerializeField]
+        float scoreValue;
 
         UnityArmatureComponent armatureComponent;
         Rigidbody2D rb2d;
@@ -57,6 +65,7 @@ namespace WSGJ
             
             armatureComponent.animation.Play("die", 1);
             Invoke(nameof(DestroyEntity), .5f);
+            Died?.Invoke(this);
         }
         
         void DestroyEntity()

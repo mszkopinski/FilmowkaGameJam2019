@@ -511,6 +511,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6e18523d89d9d1146b5a8dac7b9cb2d4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  velocity: 165
+  minSpawnHeight: 0.5
+  maxSpawnHeight: 2
+  scoreValue: 50
 --- !u!61 &6155777341998692142
 BoxCollider2D:
   m_ObjectHideFlags: 0
