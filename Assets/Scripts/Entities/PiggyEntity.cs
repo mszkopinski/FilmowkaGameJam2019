@@ -72,7 +72,14 @@ namespace WSGJ
 
         private void OnCollisionEnter2D(Collision2D collision)
         {
-            if (collision.collider.CompareTag("FallingBlock")) OnEntityDied();    
+            if (collision.collider.CompareTag("FallingBlock"))
+            {
+                var blockComponent = collision.collider.GetComponentInParent<FallingBlock>();
+                if(blockComponent != null)
+                    blockComponent.OnBlockDestroyed();
+
+                OnEntityDied();
+            };    
         }
 
         void OnEntityDied()
@@ -86,7 +93,6 @@ namespace WSGJ
         
         void DestroyEntity()
         {
-            Died?.Invoke(this);
             var particles = GetComponentsInChildren<ParticleSystem>().ToList();
 
             foreach (var particle in particles)
@@ -95,6 +101,7 @@ namespace WSGJ
                 particle.Play();
             }
 
+            Died?.Invoke(this);
             Destroy(gameObject);			
         }
     }

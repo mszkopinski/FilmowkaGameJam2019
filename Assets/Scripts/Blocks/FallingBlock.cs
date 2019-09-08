@@ -230,7 +230,7 @@ namespace WSGJ
 			}
 		}
 
-		void OnBlockDestroyed()
+		public void OnBlockDestroyed()
 		{
 			transform.DOScale(Vector3.zero, .15f)
 				.SetEase(Ease.InOutBounce)
