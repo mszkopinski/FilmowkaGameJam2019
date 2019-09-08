@@ -66,6 +66,7 @@ namespace WSGJ
 		float currentVelocity;
 		const float transitionTime = .25f;
 		AudioSource thisAudioSource;
+
 		
 		void Awake()
 		{
@@ -84,12 +85,28 @@ namespace WSGJ
 
 		void Update()
 		{
-			if(IsAttachedToTruck || !IsSelected)
+            
+            HandleAttachment();
+
+            if (IsAttachedToTruck || !IsSelected)
 				return;
 
 			HandleMovement();
 			HandleRotation();
-		}
+
+        }
+
+        private void OnDestroy()
+        {
+            if (attachmentSlot != null) Destroy(attachmentSlot.gameObject);
+        }
+
+        void HandleAttachment()
+        {
+            if (attachmentSlot.parent != null) return;
+            attachmentSlot.position = transform.position;
+            attachmentSlot.rotation = transform.rotation;
+        }
 
 		void HandleMovement()
 		{
@@ -249,7 +266,9 @@ namespace WSGJ
 			var attachmentTransform = attachment.transform;
 			attachmentTransform.SetParent(attachmentSlot);
 			attachmentTransform.localPosition = Vector3.zero;
-		}
+            attachmentSlot.parent = null;
+
+        }
 
 		public void SetSpriteTint(Color tintColor)
 		{
