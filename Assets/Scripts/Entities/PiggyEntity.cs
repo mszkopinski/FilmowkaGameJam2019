@@ -75,7 +75,7 @@ namespace WSGJ
             if (collision.collider.CompareTag("FallingBlock"))
             {
                 var blockComponent = collision.collider.GetComponentInParent<FallingBlock>();
-                if(blockComponent != null)
+                if(blockComponent != null && blockComponent.AttachedTruck == false)
                     blockComponent.OnBlockDestroyed();
 
                 OnEntityDied();
