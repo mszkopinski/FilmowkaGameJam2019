@@ -2,8 +2,9 @@ using System.Globalization;
 using DG.Tweening;
 using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
+using UnityEngine.UIElements;
 using WSGJ.Utils;
+using Image = UnityEngine.UI.Image;
 
 namespace WSGJ
 {
@@ -53,7 +54,17 @@ namespace WSGJ
 		void RefreshScoreLabel(float value)
 		{
 			currentScore += value;
-			scoreLabel.text = $"SCORE: {currentScore.ToString(CultureInfo.InvariantCulture)}";
+			scoreLabel.text = $"{currentScore.ToString(CultureInfo.InvariantCulture)}";
+			scoreLabel.rectTransform.DOScale(1.1f, 0.25f)
+				.OnStart(() =>
+				{
+					scoreLabel.DOColor(Color.white, 0.25f);
+				})
+				.OnComplete(() =>
+				{
+					scoreLabel.rectTransform.DOScale(1f, 0.15f);
+					scoreLabel.DOColor(Color.black, 0.25f); 
+				});
 		}
 
 		void OnNextBlockToSpawnChanged(BlocksSpawner.FallingBlockWrapper nextBlock)
